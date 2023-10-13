@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Diagram from "../Diagram/Diagram";
 
@@ -8,7 +8,11 @@ const FetchSessionData = () => {
   const [data, setData] = useState([]);
   const [fetchAll, setFetchAll] = useState(false);
 
+  const [grouping, setGrouping] = useState("none");
+  const [originalData, setOriginalData] = useState([]);
+
   const fetchData = async () => {
+    console.log("first");
     try {
       const response = await axios.post(
         process.env.REACT_APP_BASE_URL + "/api/search",
@@ -18,15 +22,34 @@ const FetchSessionData = () => {
           fetchAll,
         }
       );
-      setData(response.data);
+      const fetchedData = response.data;
+      setOriginalData(fetchedData); // Save the fetched data
+      groupData(fetchedData, grouping); // Group the fetched data
     } catch (error) {
       console.error("Failed to fetch data", error);
     }
   };
-  console.log(data);
+
+  const groupData = (dataToGroup, groupKey) => {
+    const groupedData = dataToGroup.reduce((acc, cur) => {
+      const key = cur[groupKey];
+      acc[key] = acc[key] || [];
+      acc[key].push(cur);
+      return acc;
+    }, {});
+    setData(
+      Object.entries(groupedData).map(([key, value]) => ({
+        key,
+        data: value,
+      }))
+    );
+  };
+  useEffect(() => {
+    groupData(originalData, grouping);
+  }, [grouping, originalData]);
+
   return (
     <div className="m-4 p-4 bg-gray-100 rounded">
-      {/* Date range picker inputs */}
       <div className="flex space-x-4 mb-4">
         <span>Start Date:</span>
         <input
@@ -88,8 +111,23 @@ const FetchSessionData = () => {
         Fetch Data
       </button>
 
+      <div className="mb-4">
+        <label className="mr-2">Group by:</label>
+        <select
+          value={grouping}
+          onChange={(e) => setGrouping(e.target.value)}
+          className="border p-2"
+        >
+          <option value="none">None</option>
+          <option value="project">Project</option>
+
+          <option value="test_object">Test Object</option>
+          <option value="market_variant">Market Variant</option>
+          <option value="stable">Stability </option>
+        </select>
+      </div>
       <div>
-        <Diagram data={data} />
+        <Diagram data={data} groupedBy={grouping} />
       </div>
     </div>
   );

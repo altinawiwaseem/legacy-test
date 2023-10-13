@@ -79,8 +79,6 @@ export const updateSession = async (req, res) => {
 export const deleteSession = async (req, res) => {
   const { id } = req.body;
 
-  console.log(id);
-
   try {
     const result = await TestSession.findByIdAndDelete(id);
 

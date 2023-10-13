@@ -64,14 +64,25 @@ const Home = () => {
               <label htmlFor="market_variant" className="text-gray-600 text-xs">
                 Market Variant:
               </label>
-              <input
+              <select
                 type="text"
                 id="market_variant"
                 name="market_variant"
                 value={formData.market_variant}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded p-1 text-xs"
-              />
+              >
+                <option value="">Select a Variant</option>
+                <option value="EU">EU</option>
+                <option value="EU_SMALL">EU Small</option>
+                <option value="JP">JP</option>
+                <option value="JP_SMALL">JP Small</option>
+                <option value="KOR">KOR</option>
+                <option value="MRM">MRM</option>
+                <option value="NAR">NAR</option>
+                <option value="CT">CT</option>
+              </select>
+
               <span className="text-red-500 text-xs block mt-1">
                 {errors.market_variant}
               </span>
@@ -104,8 +115,8 @@ const Home = () => {
                 className="w-full border border-gray-300 rounded p-1 text-xs"
               >
                 <option value="">Select a Project</option>
-                <option value="simulator">Simulator</option>
-                <option value="remote_target">Remote Target</option>
+                <option value="SIMULATOR">Simulator</option>
+                <option value="REMOTE_TARGET">Remote Target</option>
               </select>
               <span className="text-red-500 text-xs block mt-1">
                 {errors.test_object}

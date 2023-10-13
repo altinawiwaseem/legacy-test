@@ -110,6 +110,9 @@ const TestSession = ({ data, user }) => {
 
       if (response.status === 201) {
         navigate("/");
+        localStorage.removeItem("sessionId");
+
+        localStorage.removeItem("testSteps");
       }
     } catch (error) {
       console.error("Error updating the session:", error);
@@ -127,8 +130,11 @@ const TestSession = ({ data, user }) => {
         }
       );
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         navigate("/");
+        localStorage.removeItem("sessionId");
+
+        localStorage.removeItem("testSteps");
       }
     } catch (error) {
       console.error("Error deleting the session:", error);
@@ -184,6 +190,20 @@ const TestSession = ({ data, user }) => {
     setSubmitModal(false);
     setCancelSessionModal(false);
   };
+  const createTestSession = () => {
+    navigate("/");
+  };
+  if (!initialData || initialData.length === 0) {
+    return (
+      <div>
+        {" "}
+        <p>NO TEST SESSION AVAILABLE</p>
+        <button className="btn" onClick={createTestSession}>
+          Create Test Session
+        </button>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -211,9 +231,12 @@ const TestSession = ({ data, user }) => {
                 <td className="border border-gray-300 px-4 py-2 text-center">
                   <input
                     type="date"
-                    value={new Date(editedData?.created_at)
-                      .toISOString()
-                      .slice(0, 10)}
+                    value={
+                      editedData?.created_at &&
+                      new Date(editedData?.created_at)
+                        ?.toISOString()
+                        ?.slice(0, 10)
+                    }
                     onChange={(e) => handleEdit("created_at", e.target.value)}
                     className={`w-full px-2 py-1 border border-gray-300 focus:outline-none focus:border-blue-500 text-center  
                     ${
@@ -278,7 +301,7 @@ const TestSession = ({ data, user }) => {
             <tbody>
               <tr>
                 <td className="border border-gray-300 px-4 py-2">
-                  <input
+                  <select
                     type="text"
                     value={editedData.market_variant}
                     onChange={(e) =>
@@ -290,10 +313,20 @@ const TestSession = ({ data, user }) => {
                         ? "border-2 border-red-500"
                         : ""
                     }`}
-                  />
+                  >
+                    <option value="">Select a Variant</option>
+                    <option value="EU">EU</option>
+                    <option value="EU_SMALL">EU Small</option>
+                    <option value="JP">JP</option>
+                    <option value="JP_SMALL">JP Small</option>
+                    <option value="KOR">KOR</option>
+                    <option value="MRM">MRM</option>
+                    <option value="NAR">NAR</option>
+                    <option value="CT">CT</option>
+                  </select>
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  <input
+                  <select
                     type="text"
                     value={editedData.project}
                     onChange={(e) => handleEdit("project", e.target.value)}
@@ -303,7 +336,14 @@ const TestSession = ({ data, user }) => {
                         ? "border-2 border-red-500"
                         : ""
                     }`}
-                  />
+                  >
+                    {" "}
+                    <option value="">Select a Project</option>
+                    <option value="F380">F380</option>
+                    <option value="F307">F307</option>
+                    <option value="F386">F386</option>
+                    <option value="F61">F61</option>
+                  </select>
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
                   <input
@@ -331,8 +371,8 @@ const TestSession = ({ data, user }) => {
                     }`}
                   >
                     <option value="">Select a Target</option>
-                    <option value="simulator">Simulator</option>
-                    <option value="remote_target">Remote Target</option>
+                    <option value="REMOTE_TARGET">Simulator</option>
+                    <option value="REMOTE_TARGET">Remote Target</option>
                   </select>
                 </td>
               </tr>

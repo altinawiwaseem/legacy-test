@@ -8,10 +8,15 @@ export const TestSessionSchema = new Schema({
   notes: { type: String },
   market_variant: {
     type: String,
+    enum: ["EU", "KOR", "JP", "MRM", "NAR", "JP_SMALL", "EU_SMALL", "CT"],
     required: [true, "Market variant is required"],
   },
   screen_size: { type: String, required: [true, "Screen size is required"] },
-  test_object: { type: String, required: [true, "test object is required"] },
+  test_object: {
+    type: String,
+    enum: ["SIMULATOR", "REMOTE_TARGET"],
+    required: [true, "test object is required"],
+  },
   project: {
     type: String,
     enum: ["F380", "F307", "F386", "F61"],
