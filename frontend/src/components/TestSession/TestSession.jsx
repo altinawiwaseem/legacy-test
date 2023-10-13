@@ -371,7 +371,7 @@ const TestSession = ({ data, user }) => {
                     }`}
                   >
                     <option value="">Select a Target</option>
-                    <option value="REMOTE_TARGET">Simulator</option>
+                    <option value="SIMULATOR">Simulator</option>
                     <option value="REMOTE_TARGET">Remote Target</option>
                   </select>
                 </td>

@@ -22,7 +22,6 @@ const Diagram = ({ data, groupedBy }) => {
         return `Project: ${uniqueProjects.join(", ")}`;
       case "stable":
         const hasTrue = group.data.some((item) => item.stable === true);
-        const hasFalse = group.data.some((item) => item.stable === false);
 
         if (hasTrue) {
           return "Stable";
