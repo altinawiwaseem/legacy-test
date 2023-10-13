@@ -1,0 +1,407 @@
+[
+  {
+    "step_number": 1,
+    "step_details": "Startup",
+    "expected_results": "Site should open"
+  },
+  {
+    "step_number": 2,
+    "step_details": "Power Off",
+    "expected_results": "Power Off button selectable"
+  },
+  {
+    "step_number": 3,
+    "step_details": "Access Homescreen",
+    "expected_results": "Shows homescreen"
+  },
+  {
+    "step_number": 4,
+    "step_details": "Access second Homescreen page",
+    "expected_results": "Shows second page"
+  },
+  {
+    "step_number": 5,
+    "step_details": "Access Gridmenu",
+    "expected_results": "Shows options of menu"
+  },
+  {
+    "step_number": 6,
+    "step_details": "Radio - Settings",
+    "expected_results": "Settings is selectable"
+  },
+  {
+    "step_number": 7,
+    "step_details": "Radio - Scroll through favorites",
+    "expected_results": "Scrolling through favorites is possible"
+  },
+  {
+    "step_number": 8,
+    "step_details": "Radio - Favorites",
+    "expected_results": "Favorite slots responsive"
+  },
+  {
+    "step_number": 9,
+    "step_details": "Radio - Source",
+    "expected_results": "Shows source list"
+  },
+  {
+    "step_number": 10,
+    "step_details": "Radio - Preset List",
+    "expected_results": "Preset list button responsive"
+  },
+  {
+    "step_number": 11,
+    "step_details": "Radio - Station info",
+    "expected_results": "Shows Station info"
+  },
+  {
+    "step_number": 12,
+    "step_details": "Radio - Select Station",
+    "expected_results": "Selects Station from Station List"
+  },
+  {
+    "step_number": 13,
+    "step_details": "Phone - Send Message",
+    "expected_results": "Message can be entered"
+  },
+  {
+    "step_number": 14,
+    "step_details": "Phone - Send template message",
+    "expected_results": "Template can be chosen"
+  },
+  {
+    "step_number": 15,
+    "step_details": "Phone - Conversations",
+    "expected_results": "Shows conversations"
+  },
+  {
+    "step_number": 16,
+    "step_details": "Phone - Show Contacts",
+    "expected_results": "Shows contact list"
+  },
+  {
+    "step_number": 17,
+    "step_details": "Phone - Toggle",
+    "expected_results": "Toggle devices"
+  },
+  {
+    "step_number": 18,
+    "step_details": "Phone - Add favourite",
+    "expected_results": "Shows contacts window"
+  },
+  {
+    "step_number": 19,
+    "step_details": "Phone - Settings",
+    "expected_results": "Shows Settings"
+  },
+  {
+    "step_number": 20,
+    "step_details": "Phone - DialNumber",
+    "expected_results": "Number gets called"
+  },
+  {
+    "step_number": 21,
+    "step_details": "Phone - Completion recommendations",
+    "expected_results": "Shows recommendations when dialing number"
+  },
+  {
+    "step_number": 22,
+    "step_details": "Navigation - EnterAdress",
+    "expected_results": "Navi shows options for typed address"
+  },
+  {
+    "step_number": 23,
+    "step_details": "Navigation - View",
+    "expected_results": "View options selectable"
+  },
+  {
+    "step_number": 24,
+    "step_details": "Navigation - Scaling",
+    "expected_results": "View scaling changeable"
+  },
+  {
+    "step_number": 25,
+    "step_details": "Navigation - Day-Night-Mode",
+    "expected_results": "Day-Night-Mode is selectable"
+  },
+  {
+    "step_number": 26,
+    "step_details": "Navigation - LastDest",
+    "expected_results": "Navi shows Last Dest List and show the way for selected one"
+  },
+  {
+    "step_number": 27,
+    "step_details": "Media - Track interaction",
+    "expected_results": "Play position line changeable"
+  },
+  {
+    "step_number": 28,
+    "step_details": "Media - Settings",
+    "expected_results": "Settings selectable"
+  },
+  {
+    "step_number": 29,
+    "step_details": "Media - Favorites",
+    "expected_results": "Shows favorites"
+  },
+  {
+    "step_number": 30,
+    "step_details": "Media - Track details",
+    "expected_results": "Shows details"
+  },
+  {
+    "step_number": 31,
+    "step_details": "Media - Add to playlist",
+    "expected_results": "Adding song to playlist possible"
+  },
+  {
+    "step_number": 32,
+    "step_details": "Media - Play option",
+    "expected_results": "previous/pause/next/repeat/mix/like are selectable"
+  },
+  {
+    "step_number": 33,
+    "step_details": "Media - Show Selection",
+    "expected_results": "Show List and select a song"
+  },
+  {
+    "step_number": 34,
+    "step_details": "Media - Select Source",
+    "expected_results": "Shows Sources and selects chosen"
+  },
+  {
+    "step_number": 35,
+    "step_details": "Vehicle - Tire Pressure",
+    "expected_results": "Shows tire pressure"
+  },
+  {
+    "step_number": 36,
+    "step_details": "Vehicle - Oil Level",
+    "expected_results": "Shows oil level"
+  },
+  {
+    "step_number": 37,
+    "step_details": "Vehicle - Settings",
+    "expected_results": "Shows settings"
+  },
+  {
+    "step_number": 38,
+    "step_details": "Vehicle - Digital Cockpit",
+    "expected_results": "Shows Digital Cockpit Screen and options"
+  },
+  {
+    "step_number": 39,
+    "step_details": "Vehicle - Sport",
+    "expected_results": "Shows Sport info view"
+  },
+  {
+    "step_number": 40,
+    "step_details": "Vehicle - Offroad",
+    "expected_results": "Shows Offroad info view"
+  },
+  {
+    "step_number": 41,
+    "step_details": "Vehicle - Driving Data",
+    "expected_results": "Shows Driving Data and mode options"
+  },
+  {
+    "step_number": 42,
+    "step_details": "Vehicle - Selection",
+    "expected_results": "Shows options"
+  },
+  {
+    "step_number": 43,
+    "step_details": "Vehicle - Overall Status",
+    "expected_results": "Shows vehicle status"
+  },
+  {
+    "step_number": 44,
+    "step_details": "Sound - EQ",
+    "expected_results": "Shows EQ settings"
+  },
+  {
+    "step_number": 45,
+    "step_details": "Sound - Volume",
+    "expected_results": "Shows volume options"
+  },
+  {
+    "step_number": 46,
+    "step_details": "Sound - Reset",
+    "expected_results": "Reset button responsive"
+  },
+  {
+    "step_number": 47,
+    "step_details": "Sound - Position",
+    "expected_results": "Shows position settings"
+  },
+  {
+    "step_number": 48,
+    "step_details": "Settings - Voice Control",
+    "expected_results": "VC options shown"
+  },
+  {
+    "step_number": 49,
+    "step_details": "Settings - Units",
+    "expected_results": "Units options shown"
+  },
+  {
+    "step_number": 50,
+    "step_details": "Settings - Additional languages",
+    "expected_results": "Additional languages options shown"
+  },
+  {
+    "step_number": 51,
+    "step_details": "Settings - Time and date",
+    "expected_results": "Time and date options shown"
+  },
+  {
+    "step_number": 52,
+    "step_details": "Settings - Screen",
+    "expected_results": "Screen options shown"
+  },
+  {
+    "step_number": 53,
+    "step_details": "Settings - Language",
+    "expected_results": "Language options shown"
+  },
+  {
+    "step_number": 54,
+    "step_details": "Driver assist",
+    "expected_results": "Shows Driver assist options"
+  },
+  {
+    "step_number": 55,
+    "step_details": "Users - change user",
+    "expected_results": "Shows other user to change to"
+  },
+  {
+    "step_number": 56,
+    "step_details": "User - new user",
+    "expected_results": "New user selectable"
+  },
+  {
+    "step_number": 57,
+    "step_details": "Legal texts",
+    "expected_results": "Legal texts button responsive"
+  },
+  {
+    "step_number": 58,
+    "step_details": "Air conditioning - Front",
+    "expected_results": "Front view selectable"
+  },
+  {
+    "step_number": 59,
+    "step_details": "Air conditioning - Change Temp. Front and Rear",
+    "expected_results": "Temp. Changeable"
+  },
+  {
+    "step_number": 60,
+    "step_details": "Air conditioning - Change position Front and Rear",
+    "expected_results": "Position changeable"
+  },
+  {
+    "step_number": 61,
+    "step_details": "Air conditioning - Sync Front",
+    "expected_results": "Sync front Temp."
+  },
+  {
+    "step_number": 62,
+    "step_details": "Air conditioning - Rear",
+    "expected_results": "Rear view selectable"
+  },
+  {
+    "step_number": 63,
+    "step_details": "Air conditioning - Air Care",
+    "expected_results": "Air care selectable"
+  },
+  {
+    "step_number": 64,
+    "step_details": "Air conditioning - Aux. Heater",
+    "expected_results": "Aux. Heater view selectable"
+  },
+  {
+    "step_number": 65,
+    "step_details": "Air conditioning - Heat/ ventilate options",
+    "expected_results": "Shows options for heating/ ventilating"
+  },
+  {
+    "step_number": 66,
+    "step_details": "Air conditioning - defog-windows",
+    "expected_results": "Defog-windows button selectable"
+  },
+  {
+    "step_number": 67,
+    "step_details": "Apps",
+    "expected_results": "Apps button selectable"
+  },
+  {
+    "step_number": 68,
+    "step_details": "Help",
+    "expected_results": "Shows Help tutorials"
+  },
+  {
+    "step_number": 69,
+    "step_details": "Manage users",
+    "expected_results": "Show user profiles"
+  },
+  {
+    "step_number": 70,
+    "step_details": "Podcasts",
+    "expected_results": "Selectable"
+  },
+  {
+    "step_number": 71,
+    "step_details": "SpellerTests",
+    "expected_results": "Selectable"
+  },
+  {
+    "step_number": 72,
+    "step_details": "Alexa",
+    "expected_results": "Selectable"
+  },
+  {
+    "step_number": 73,
+    "step_details": "App-Connect",
+    "expected_results": "App-Connect selectable"
+  },
+  {
+    "step_number": 74,
+    "step_details": "IDA Open Speech Desktop",
+    "expected_results": "Open Speech Desktop With Wave Animation"
+  },
+  {
+    "step_number": 75,
+    "step_details": "IDA Give Speech Input",
+    "expected_results": "System is responsive"
+  },
+  {
+    "step_number": 76,
+    "step_details": "Apple Music",
+    "expected_results": "Selectable"
+  },
+  {
+    "step_number": 77,
+    "step_details": "Charging",
+    "expected_results": "Shows current settings"
+  },
+  {
+    "step_number": 78,
+    "step_details": "Charging Settings",
+    "expected_results": "Shows Settings"
+  },
+  {
+    "step_number": 79,
+    "step_details": "Parking",
+    "expected_results": "Shows rear camera"
+  },
+  {
+    "step_number": 80,
+    "step_details": "ZerroEmission",
+    "expected_results": "Selectable"
+  },
+  {
+    "step_number": 81,
+    "step_details": "Shop",
+    "expected_results": "Selectable"
+  }
+]
