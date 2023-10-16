@@ -7,7 +7,6 @@ import {
   loginUser,
   logout,
   getUserData,
-  getUserDatas,
 } from "../controllers/userControllers.js";
 const router = Router();
 
@@ -19,9 +18,6 @@ router.post("/login", loginUser);
 
 //http://localhost:5000/user/userData
 router.post("/userData", getUserData);
-
-//localhost:5000/user/userdatas
-http: router.get("/userdatas", getUserDatas);
 
 //http:localhost:5000/user/logout
 router.get("/logout", logout);

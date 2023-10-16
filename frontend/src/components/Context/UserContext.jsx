@@ -7,7 +7,7 @@ const UserContextProvider = ({ children }) => {
   const [error, setError] = useState("");
   const [user, setUser] = useState("");
   const [token, setToken] = useState("");
-  console.log(user);
+
   //sign in the right user from db
   const [signIn, setSignIn] = useState({});
   //for eye icon in password
@@ -16,9 +16,6 @@ const UserContextProvider = ({ children }) => {
 
   /* getting the user data and setting to local storage */
   const userData = async (formData) => {
-    console.log(formData.get("email"));
-    console.log(formData.get("password"));
-    console.log(process.env.REACT_APP_BASE_URL + "/user/login");
     try {
       await axios
         .post(

@@ -94,11 +94,26 @@ export const deleteSession = async (req, res) => {
 
 export const fetchSessions = async (req, res) => {
   try {
-    const { dateRange, selectedProjects, fetchAll } = req.body;
+    const {
+      dateRange,
+      selectedProjects,
+      fetchAll,
+      page = 1,
+      itemsPerPage,
+    } = req.body;
+
+    const resultsPerPage = itemsPerPage || 50;
+    const skip = (page - 1) * resultsPerPage;
 
     if (fetchAll) {
-      const allSessions = await TestSession.find();
-      return res.json(allSessions);
+      const allSessions = await TestSession.find()
+        .sort({ created_at: -1 })
+        .skip(skip)
+        .limit(resultsPerPage);
+
+      const totalCount = await TestSession.countDocuments();
+
+      return res.json({ data: allSessions, totalCount });
     }
 
     const query = {};
@@ -121,9 +136,14 @@ export const fetchSessions = async (req, res) => {
       query.project = { $in: selectedProjects };
     }
 
-    const sessions = await TestSession.find(query);
+    const sessions = await TestSession.find(query)
+      .sort({ created_at: -1 })
+      .skip(skip)
+      .limit(resultsPerPage);
 
-    res.json(sessions);
+    const totalCount = await TestSession.countDocuments(query);
+
+    res.json({ data: sessions, totalCount });
   } catch (error) {
     res.status(500).send("Server Error");
   }

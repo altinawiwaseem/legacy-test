@@ -27,8 +27,11 @@ export default function Register() {
 
       if (response.status === 201) {
         navigate("/");
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
       }
     } catch (error) {
+      console.log(error);
       setError(error.response.data.message);
       console.log(error);
     }
@@ -52,7 +55,7 @@ export default function Register() {
               required
             />
           </div>
-          <div class="relative mb-4">
+          <div className="relative mb-4">
             <input
               className={style.inputStyleClass}
               label="Last Name"
@@ -74,7 +77,7 @@ export default function Register() {
               required
             />
           </div>
-          <div class="relative mb-4">
+          <div className="relative mb-4">
             <input
               className={style.inputStyleClass}
               label="Password"

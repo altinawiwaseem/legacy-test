@@ -4,7 +4,7 @@ import { TestStepsSchema } from "./testSteps.js";
 
 export const TestSessionSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: "user" },
-  created_at: { type: Date, default: Date.now },
+  created_at: { type: Date, default: Date.now, index: true },
   notes: { type: String },
   market_variant: {
     type: String,
@@ -34,7 +34,7 @@ export const TestSessionSchema = new Schema({
     required: [true, "The build number is required"],
   },
 });
-
+TestSessionSchema.index({ created_at: -1 });
 const TestSession = model("testSession", TestSessionSchema);
 
 export default TestSession;

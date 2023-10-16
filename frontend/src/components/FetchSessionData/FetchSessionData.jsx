@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Diagram from "../Diagram/Diagram";
+import Pagination from "../Pagination/Pagination";
 
 const FetchSessionData = () => {
   const [dateRange, setDateRange] = useState({ startDate: "", endDate: "" });
@@ -11,20 +13,48 @@ const FetchSessionData = () => {
   const [grouping, setGrouping] = useState("none");
   const [originalData, setOriginalData] = useState([]);
 
-  const fetchData = async () => {
-    console.log("first");
+  const initialMount = useRef(true);
+
+  const [totalPages, setTotalPages] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(50); // default value
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const searchParams = new URLSearchParams(location.search);
+  const pageFromUrl = searchParams.get("page");
+
+  if (isNaN(pageFromUrl)) {
+    pageFromUrl = 1;
+  }
+  const [currentPage, setCurrentPage] = useState(
+    pageFromUrl ? Number(pageFromUrl) : 1
+  );
+
+  const fetchData = async (page = currentPage) => {
+    console.log(page);
+
     try {
       const response = await axios.post(
-        process.env.REACT_APP_BASE_URL + "/api/search",
+        `${process.env.REACT_APP_BASE_URL}/api/search`,
         {
           dateRange,
           selectedProjects,
           fetchAll,
+          page,
+          itemsPerPage,
         }
       );
-      const fetchedData = response.data;
-      setOriginalData(fetchedData); // Save the fetched data
-      groupData(fetchedData, grouping); // Group the fetched data
+
+      const totalCount = response.data.totalCount;
+      const fetchedData = response.data.data;
+
+      setOriginalData(fetchedData);
+      groupData(fetchedData, grouping);
+
+      setTotalPages(Math.ceil(totalCount / 50));
+      setCurrentPage(page);
+      navigate(`?page=${page}`);
     } catch (error) {
       console.error("Failed to fetch data", error);
     }
@@ -47,6 +77,23 @@ const FetchSessionData = () => {
   useEffect(() => {
     groupData(originalData, grouping);
   }, [grouping, originalData]);
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages && currentPage !== newPage) {
+      fetchData(newPage);
+    }
+  };
+
+  const previousPageFromUrl = useRef(pageFromUrl);
+
+  useEffect(() => {
+    if (initialMount.current && !pageFromUrl) {
+      initialMount.current = false;
+      return;
+    }
+
+    fetchData(parseInt(pageFromUrl) || 1);
+  }, [pageFromUrl]);
 
   return (
     <div className="m-4 p-4 bg-gray-100 rounded">
@@ -105,7 +152,7 @@ const FetchSessionData = () => {
       </div>
 
       <button
-        onClick={fetchData}
+        onClick={() => fetchData(1)}
         className="bg-blue-500 text-white p-2 rounded"
       >
         Fetch Data
@@ -125,9 +172,32 @@ const FetchSessionData = () => {
           <option value="market_variant">Market Variant</option>
           <option value="stable">Stability </option>
         </select>
+        <div className="mb-4">
+          <label>Items per Page:</label>
+          <input
+            type="number"
+            value={itemsPerPage}
+            onChange={(e) => setItemsPerPage(e.target.value)}
+            className="border p-2"
+          />
+        </div>
+      </div>
+      <div>
+        <Pagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          handlePageChange={handlePageChange}
+        />
       </div>
       <div>
         <Diagram data={data} groupedBy={grouping} />
+      </div>
+      <div>
+        <Pagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          handlePageChange={handlePageChange}
+        />
       </div>
     </div>
   );

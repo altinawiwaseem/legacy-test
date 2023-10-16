@@ -84,17 +84,7 @@ export const getUserData = async (req, res) => {
     return res.send(error.message);
   }
 };
-//checking
-export const getUserDatas = async (req, res) => {
-  try {
-    const userDatas = await User.find();
 
-    return res.status(200).json(userDatas);
-  } catch (error) {
-    return res.send(error.message);
-  }
-};
-/* ----------------------- */
 //logout of user by clearing all the cookies
 export const logout = async (req, res, next) => {
   try {
@@ -107,41 +97,5 @@ export const logout = async (req, res, next) => {
       .send("User logged out");
   } catch (error) {
     res.send(error);
-  }
-};
-
-export const updateUserQuizResults = async (req, res) => {
-  //getting the userid, sessionid, result percentage and quiz type from the frontend"
-  const { userId, sessionId, resultPercentage, quizType } = req.body;
-
-  try {
-    //find the userid and give the session id on the quizresults
-    const session = await User.findOne({
-      _id: userId,
-      "quizResults.sessionId": sessionId,
-    });
-    // if session exist stop execution in order to avoid duplication of session
-    if (session) {
-      return;
-    }
-    //update the user's quiz result with sessionid,result%, quiztypeand created on date and time
-    const updateUserQuizResult = await User.findByIdAndUpdate(
-      userId,
-      {
-        $push: {
-          quizResults: {
-            sessionId,
-            resultPercentage,
-            quizType,
-            createdOn: Date.now(),
-          },
-        },
-      },
-      { new: true }
-    );
-
-    return res.status(200).json(updateUserQuizResult);
-  } catch (error) {
-    return res.send(error);
   }
 };
