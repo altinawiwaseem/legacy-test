@@ -1,0 +1,72 @@
+.light-theme {
+  /* Light theme styles */
+  background-color: #fff;
+  color: #000;
+}
+
+.dark-theme {
+  /* Dark theme styles */
+  background-color: #000;
+  color: #fff;
+}
+
+.high-contrast-theme {
+  /* High contrast theme styles*/
+  background-color: #fff;
+  color: #000;
+  border-color: #000;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 2rem;
+  margin-left: 1.5rem;
+}
+
+.nav-bar {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-bar li {
+  display: inline-block;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.username {
+  font-size: 1.5rem;
+  margin-right: 1.5rem;
+}
+
+.light-theme {
+  background-color: white;
+  color: black;
+}
+
+.dark-theme {
+  background-color: black;
+  color: white;
+}
+
+.high-contrast-theme {
+  background-color: yellow;
+  color: black;
+}
+
+.dark-theme select {
+  background-color: #000;
+  color: #fff;
+  border: 2px solid #fff;
+}
+
+.dark-theme select option {
+  background-color: #000;
+  color: #fff;
+}

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UserContext } from "../Context/UserContext";
+import { UserContext } from "../Context/UserContext/UserContext";
 
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { style } from "../../utils/style.js";

@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 const TestContext = createContext(null);
 
 const TestContextProvider = ({ children }) => {
-  const getUser = JSON.parse(localStorage.getItem("user"));
-
   const navigate = useNavigate();
+
+  const getUser = JSON.parse(localStorage.getItem("user"));
 
   // Get test steps from localStorage
 
@@ -35,6 +35,8 @@ const TestContextProvider = ({ children }) => {
     }
   };
   const [sessionId, setSessionId] = useState(getSessionIdFromLocalStorage());
+
+  const [displayTestData, setDisplayTestData] = useState([]);
 
   const handleNewTest = (
     market_variant,
@@ -67,7 +69,9 @@ const TestContextProvider = ({ children }) => {
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/api/createtestsession`,
         {
+          username: getUser.firstName + " " + getUser.lastName,
           user: getUser._id,
+
           market_variant: market_variant,
           screen_size: screen_size,
           test_object: test_object,
@@ -91,6 +95,7 @@ const TestContextProvider = ({ children }) => {
         "sessionId",
         JSON.stringify(response.data.newTestSession._id)
       );
+
       console.log(response.data.newTestSession);
       // Update state variables as needed
 
@@ -99,6 +104,19 @@ const TestContextProvider = ({ children }) => {
       navigate("/testsession");
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const getResultBackgroundColor = (result) => {
+    switch (result) {
+      case "Pass":
+        return "green-500";
+      case "Fail":
+        return "red-500";
+      case "Not_Testable":
+        return "gray-400";
+      default:
+        return "bg-gray-200";
     }
   };
 
@@ -113,6 +131,9 @@ const TestContextProvider = ({ children }) => {
         handleCreateNewSession,
         stepsData,
         setStepsData,
+        setDisplayTestData,
+        displayTestData,
+        getResultBackgroundColor,
       }}
     >
       {children}

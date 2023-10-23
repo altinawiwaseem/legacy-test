@@ -1,8 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Diagram from "../Diagram/Diagram";
 import Pagination from "../Pagination/Pagination";
+import TestSession from "../TestSession/TestSession";
+import DisplayTestModal from "../DisplayTestModal/DisplayTestModal";
+import { TestContext } from "../Context/TestContext/TestContext";
 
 const FetchSessionData = () => {
   const [dateRange, setDateRange] = useState({ startDate: "", endDate: "" });
@@ -12,11 +15,16 @@ const FetchSessionData = () => {
 
   const [grouping, setGrouping] = useState("none");
   const [originalData, setOriginalData] = useState([]);
+  const [pageData, setPageData] = useState("");
 
   const initialMount = useRef(true);
 
   const [totalPages, setTotalPages] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(50); // default value
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [testData, setTestData] = useState(null);
+
+  const { setDisplayTestData } = useContext(TestContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -32,8 +40,6 @@ const FetchSessionData = () => {
   );
 
   const fetchData = async (page = currentPage) => {
-    console.log(page);
-
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/api/search`,
@@ -51,8 +57,8 @@ const FetchSessionData = () => {
 
       setOriginalData(fetchedData);
       groupData(fetchedData, grouping);
-
-      setTotalPages(Math.ceil(totalCount / 50));
+      setPageData(fetchedData);
+      setTotalPages(Math.ceil(totalCount / itemsPerPage));
       setCurrentPage(page);
       navigate(`?page=${page}`);
     } catch (error) {
@@ -95,8 +101,34 @@ const FetchSessionData = () => {
     fetchData(parseInt(pageFromUrl) || 1);
   }, [pageFromUrl]);
 
+  const handleBarClick = async (data) => {
+    try {
+      localStorage.setItem("displayTestData", JSON.stringify(data));
+      handleOpenModal(data);
+      /* navigate("/view-test-data"); */
+    } catch (error) {
+      console.error("Error handling click:", error);
+    }
+  };
+
+  const handleOpenModal = (data) => {
+    setDisplayTestData(data);
+    setTestData(data);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+  const handleEdit = () => {
+    console.log("testdata", testData);
+    localStorage.setItem("testSteps", JSON.stringify(testData));
+    setIsModalOpen(false);
+    navigate("/testsession", { state: { data: testData } });
+  };
+
   return (
-    <div className="m-4 p-4 bg-gray-100 rounded">
+    <div className="m-4 p-4 bg-gray-100 rounded relative">
       <div className="flex space-x-4 mb-4">
         <span>Start Date:</span>
         <input
@@ -182,23 +214,38 @@ const FetchSessionData = () => {
           />
         </div>
       </div>
+      {pageData && (
+        <div>
+          <Pagination
+            totalPages={totalPages}
+            currentPage={currentPage}
+            handlePageChange={handlePageChange}
+          />
+        </div>
+      )}
       <div>
-        <Pagination
-          totalPages={totalPages}
-          currentPage={currentPage}
-          handlePageChange={handlePageChange}
+        <Diagram
+          data={data}
+          groupedBy={grouping}
+          onBarClick={handleOpenModal}
         />
       </div>
-      <div>
-        <Diagram data={data} groupedBy={grouping} />
-      </div>
-      <div>
-        <Pagination
-          totalPages={totalPages}
-          currentPage={currentPage}
-          handlePageChange={handlePageChange}
-        />
-      </div>
+      {pageData && (
+        <div>
+          <Pagination
+            totalPages={totalPages}
+            currentPage={currentPage}
+            handlePageChange={handlePageChange}
+          />
+        </div>
+      )}
+
+      <DisplayTestModal
+        isOpen={isModalOpen}
+        data={testData}
+        onClose={handleCloseModal}
+        onEdit={handleEdit}
+      />
     </div>
   );
 };

@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Legend from "./Legend";
 
-const Diagram = ({ data, groupedBy }) => {
+const Diagram = ({ data, groupedBy, onBarClick }) => {
+  const handleBarClick = useCallback(
+    (item) => {
+      if (onBarClick) {
+        onBarClick(item);
+      }
+    },
+    [onBarClick]
+  );
+
   if (!data || data.length === 0) {
     return null; // No data to render
   }
+
   const dataArray = Array.isArray(data) ? data : [data];
 
   const colorData = [
@@ -59,7 +69,10 @@ const Diagram = ({ data, groupedBy }) => {
     const maxBarHeight = 200;
 
     return (
-      <div className="m-2  p-2 flex flex-col items-center w-32 border-2 ">
+      <div
+        className="m-2 p-2 flex flex-col items-center w-32 border-2 cursor-pointer hover:bg-blue-100"
+        onClick={() => handleBarClick(item)}
+      >
         <div
           className={`box-content relative h-[200px] w-24 mx-4 ${
             item.stable ? "" : "border-dashed border-2 border-gray-500"

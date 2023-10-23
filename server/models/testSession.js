@@ -4,8 +4,10 @@ import { TestStepsSchema } from "./testSteps.js";
 
 export const TestSessionSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: "user" },
+  username: { type: String, required: [true, "Username is required"] },
+  edited_by: { type: String, default: "" },
   created_at: { type: Date, default: Date.now, index: true },
-  notes: { type: String },
+  notes: { type: String, default: "" },
   market_variant: {
     type: String,
     enum: ["EU", "KOR", "JP", "MRM", "NAR", "JP_SMALL", "EU_SMALL", "CT"],

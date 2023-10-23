@@ -22,6 +22,8 @@ export const getAllSteps = async (req, res) => {
 export const createTestSession = async (req, res) => {
   const {
     user,
+    username,
+
     market_variant,
     screen_size,
     test_object,
@@ -37,6 +39,8 @@ export const createTestSession = async (req, res) => {
     const newTestSession = await TestSession.create({
       user,
       steps,
+      username,
+
       market_variant,
       screen_size,
       test_object,
@@ -57,6 +61,7 @@ export const createTestSession = async (req, res) => {
 
 export const updateSession = async (req, res) => {
   const { id, ...updatedData } = req.body;
+
   try {
     const updatedSession = await TestSession.findByIdAndUpdate(
       id,
@@ -120,11 +125,7 @@ export const fetchSessions = async (req, res) => {
 
     if (dateRange.startDate && dateRange.endDate) {
       let startDate = new Date(dateRange.startDate);
-      let endDate = new Date(dateRange.endDate);
-
-      if (dateRange.startDate === dateRange.endDate) {
-        endDate.setHours(23, 59, 59, 999);
-      }
+      let endDate = new Date(dateRange.endDate).setHours(23, 59, 59, 999);
 
       query.created_at = {
         $gte: startDate,

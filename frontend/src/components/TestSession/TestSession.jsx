@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ConfirmModal from "../ConfirmModal/ConfirmModal ";
 import Diagram from "../Diagram/Diagram";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { TestContext } from "../Context/TestContext/TestContext";
 
 const TestSession = ({ data, user }) => {
   const [showModal, setShowModal] = useState(false);
@@ -12,11 +13,19 @@ const TestSession = ({ data, user }) => {
   const [emptyFields, setEmptyFields] = useState([]);
   const [shouldCheckForEmptyFields, setShouldCheckForEmptyFields] =
     useState(false);
+
   const [activeTab, setActiveTab] = useState("table");
+
   const initialData = localStorage.getItem("testSteps")
     ? JSON.parse(localStorage.getItem("testSteps"))
     : data;
 
+  const { displayTestData } = useContext(TestContext);
+
+  /*  const DisplayTestData = localStorage.getItem("displayTestData")
+    ? JSON.parse(localStorage.getItem("displayTestData"))
+    : data;
+ */
   const [editedData, setEditedData] = useState(initialData);
 
   const navigate = useNavigate();
@@ -37,7 +46,10 @@ const TestSession = ({ data, user }) => {
 
   const handleEdit = (field, value, stepIndex = null) => {
     setEditedData((prevData) => {
-      const updatedData = { ...prevData };
+      const editedBy = `${user?.firstName} ${user?.lastName}`;
+      const updatedData = { ...prevData, edited_by: editedBy };
+      console.log(updatedData);
+
       if (stepIndex !== null) {
         updatedData.steps = prevData.steps.map((step, index) => {
           if (index === stepIndex) {
@@ -54,7 +66,7 @@ const TestSession = ({ data, user }) => {
 
       // Save to localStorage
       saveToLocalStorage(updatedData);
-      console.log("updated", updatedData);
+
       // Recompute empty fields after editing
       if (shouldCheckForEmptyFields) {
         const newEmptyFields = computeEmptyFields(updatedData);
@@ -99,6 +111,7 @@ const TestSession = ({ data, user }) => {
   };
 
   const updateTestSession = async (sessionId, updatedData) => {
+    console.log("first", updatedData);
     try {
       const response = await axios.put(
         process.env.REACT_APP_BASE_URL + `/api/updateSession`,
@@ -193,10 +206,10 @@ const TestSession = ({ data, user }) => {
   const createTestSession = () => {
     navigate("/");
   };
+
   if (!initialData || initialData.length === 0) {
     return (
       <div>
-        {" "}
         <p>NO TEST SESSION AVAILABLE</p>
         <button className="btn" onClick={createTestSession}>
           Create Test Session
@@ -215,6 +228,9 @@ const TestSession = ({ data, user }) => {
                 <th className="border border-gray-300 px-4 py-2 w-1/4">
                   Tester
                 </th>
+                <th className="border border-gray-300 px-4 py-2 w-1/4">
+                  Edited By
+                </th>
                 <th className="border border-gray-300 px-4 py-2 w-1/4">Date</th>
                 <th className="border border-gray-300 px-4 py-2 w-1/4">
                   Stable
@@ -227,6 +243,9 @@ const TestSession = ({ data, user }) => {
 
             <tbody>
               <tr>
+                <td className="border border-gray-300 px-4 py-2 text-center">
+                  {editedData.username}
+                </td>
                 <td className="border border-gray-300 px-4 py-2 text-center">{`${user?.firstName} ${user?.lastName}`}</td>
                 <td className="border border-gray-300 px-4 py-2 text-center">
                   <input
@@ -266,7 +285,7 @@ const TestSession = ({ data, user }) => {
                 <td className="border border-gray-300 px-4 py-2">
                   <input
                     type="text"
-                    value={editedData.build_number}
+                    value={editedData?.build_number}
                     onChange={(e) => handleEdit("build_number", e.target.value)}
                     className={`w-full px-2 py-1 border border-gray-300 focus:outline-none focus:border-blue-500 text-center  
                     ${
@@ -303,7 +322,7 @@ const TestSession = ({ data, user }) => {
                 <td className="border border-gray-300 px-4 py-2">
                   <select
                     type="text"
-                    value={editedData.market_variant}
+                    value={editedData?.market_variant}
                     onChange={(e) =>
                       handleEdit("market_variant", e.target.value)
                     }
@@ -328,7 +347,7 @@ const TestSession = ({ data, user }) => {
                 <td className="border border-gray-300 px-4 py-2">
                   <select
                     type="text"
-                    value={editedData.project}
+                    value={editedData?.project}
                     onChange={(e) => handleEdit("project", e.target.value)}
                     className={`w-full px-2 py-1 border border-gray-300 focus:outline-none focus:border-blue-500 text-center  
                     ${
@@ -348,7 +367,7 @@ const TestSession = ({ data, user }) => {
                 <td className="border border-gray-300 px-4 py-2">
                   <input
                     type="text"
-                    value={editedData.screen_size}
+                    value={editedData?.screen_size}
                     onChange={(e) => handleEdit("screen_size", e.target.value)}
                     className={`w-full px-2 py-1 border border-gray-300 focus:outline-none focus:border-blue-500 text-center  
                     ${
@@ -361,7 +380,7 @@ const TestSession = ({ data, user }) => {
                 <td className="border border-gray-300 px-4 py-2">
                   <select
                     type="text"
-                    value={editedData.test_object}
+                    value={editedData?.test_object}
                     onChange={(e) => handleEdit("test_object", e.target.value)}
                     className={`w-full px-2 py-1 border border-gray-300 focus:outline-none focus:border-blue-500 text-center  
                     ${
@@ -403,6 +422,30 @@ const TestSession = ({ data, user }) => {
             </button>
           </div>
         </div>
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th>Notes</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td className="w-screen">
+                  <textarea
+                    value={editedData?.notes}
+                    onChange={(e) => handleEdit("notes", e.target.value)}
+                    className="border-2 w-full h-32 resize-none"
+                    name="note"
+                    id=""
+                  ></textarea>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
         {activeTab === "table" && (
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-200">
@@ -425,14 +468,14 @@ const TestSession = ({ data, user }) => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {editedData?.steps
-                ?.sort((a, b) => a.step_number - b.step_number)
+                ?.sort((a, b) => a.step_id - b.step_id)
                 .map((step, index) => (
                   <tr key={index} className="hover:bg-gray-300">
                     <td className="w-2 px-4 py-2 border border-gray-300 ">
                       {index + 1}
                     </td>
                     <td className={`w-2 px-4 py-2 border border-gray-300 `}>
-                      {step.step_number}
+                      {step.step_id}
                     </td>
                     <td
                       className={`px-4 py-2 border border-gray-300 
@@ -539,7 +582,7 @@ const TestSession = ({ data, user }) => {
           onClick={handleCancelSession}
           className="bg-red-500 text-white px-4 py-2 rounded-md"
         >
-          Cancel
+          Delete
         </button>
       </div>
 

@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 export const TestStepsSchema = new Schema({
-  step_number: {
+  step_id: {
     type: Number,
     required: [true, "Step number is required"],
   },

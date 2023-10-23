@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { UserContext } from "../Context/UserContext";
+import { UserContext } from "../Context/UserContext/UserContext";
 import { style } from "../../utils/style";
 
 export default function Login() {

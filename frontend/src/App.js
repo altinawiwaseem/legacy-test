@@ -6,15 +6,19 @@ import Home from "./components/Home/Home";
 import ProtectedRoutes from "./components/ProtectedRoute/ProtectedRoutes";
 import TestSession from "./components/TestSession/TestSession";
 import { useContext } from "react";
-import { TestContext } from "./components/Context/TestContext";
-import { UserContext } from "./components/Context/UserContext";
+import { TestContext } from "./components/Context/TestContext/TestContext";
+import { UserContext } from "./components/Context/UserContext/UserContext";
 import FetchSessionData from "./components/FetchSessionData/FetchSessionData";
+import Header from "./components/Header/Header";
+import "./theme.css";
+/* import DisplayTestData from "./components/DisplayTestData/DisplayTestData"; */
 
 function App() {
   const { stepsData } = useContext(TestContext);
   const { user } = useContext(UserContext);
   return (
-    <div className="App">
+    <div className="App h-screen">
+      <Header />
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
@@ -26,6 +30,7 @@ function App() {
             exact
           />
           <Route element={<FetchSessionData />} path="/search" exact />
+          {/* <Route path="/view-test-data" element={<DisplayTestData />} exact /> */}
         </Route>
       </Routes>
 
