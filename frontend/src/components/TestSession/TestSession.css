@@ -1,0 +1,77 @@
+.testSession {
+  width: 95%;
+
+  margin: 0 auto;
+}
+.test-table td:nth-child(-n + 2) {
+  width: 4%;
+}
+
+.test-table td:nth-child(n + 3):nth-child(-n + 5) {
+  width: 20%;
+}
+
+.test-table td:nth-child(n + 6):nth-child(-n + 7) {
+  width: 12.5%;
+}
+
+.test-table td:nth-child(8) {
+  width: 5%;
+}
+
+.empty-input {
+  border-color: red;
+  margin: 20rem;
+}
+
+.dark .test-table input,
+.dark .table-5 input {
+  background-color: var(--dark-background);
+  color: var(--dark-text);
+  border-color: var(--dark-border);
+}
+
+.dark .test-table select,
+.dark .table-5 select {
+  background-color: var(--dark-background);
+  color: var(--dark-text);
+  border-color: var(--dark-border);
+}
+
+.dark .test-table select option,
+.dark .table-5 select option {
+  background-color: var(--dark-background);
+  color: var(--dark-text);
+}
+
+.high-contrast .test-table input,
+.high-contrast .table-5 input {
+  background-color: var(--contrast-background);
+  color: var(--contrast-text);
+  border-color: var(--contrast-text);
+}
+
+.high-contrast .test-table select,
+.high-contrast .table-5 select {
+  background-color: var(--contrast-background);
+  color: var(--contrast-text);
+  border-color: var(--contrast-text);
+}
+
+.high-contrast .test-table select option,
+.high-contrast .table-5 select option {
+  background-color: var(--contrast-background);
+  color: var(--contrast-text);
+  border-color: var(--contrast-text);
+}
+
+.red-btn {
+  margin: auto;
+  width: 100%;
+  background-color: transparent;
+  color: red;
+  border: none;
+  font-weight: bolder;
+  font-size: 20px;
+  cursor: pointer;
+}

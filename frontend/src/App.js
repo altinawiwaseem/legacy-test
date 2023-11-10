@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Register from "./components/Register/Register";
 import Login from "./components/Login/Login";
-import GetDataSteps from "./components/GetDataSteps/GetDataSteps";
 import Home from "./components/Home/Home";
 import ProtectedRoutes from "./components/ProtectedRoute/ProtectedRoutes";
 import TestSession from "./components/TestSession/TestSession";
@@ -10,14 +9,16 @@ import { TestContext } from "./components/Context/TestContext/TestContext";
 import { UserContext } from "./components/Context/UserContext/UserContext";
 import FetchSessionData from "./components/FetchSessionData/FetchSessionData";
 import Header from "./components/Header/Header";
-import "./theme.css";
+import { ThemeContext } from "./components/Context/ThemeContext/ThemeContext";
+
 /* import DisplayTestData from "./components/DisplayTestData/DisplayTestData"; */
 
 function App() {
   const { stepsData } = useContext(TestContext);
   const { user } = useContext(UserContext);
+  const { theme } = useContext(ThemeContext);
   return (
-    <div className="App h-screen">
+    <div className={`App  ${theme} `}>
       <Header />
       <Routes>
         <Route path="/register" element={<Register />} />

@@ -1,9 +1,12 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "../Context/UserContext/UserContext";
 import { TestContext } from "../Context/TestContext/TestContext";
+import "./Home.css";
+import { ThemeContext } from "../Context/ThemeContext/ThemeContext";
 
 const Home = () => {
-  const { user, token } = useContext(UserContext);
+  const { theme } = useContext(ThemeContext);
+  const { token } = useContext(UserContext);
   const { handleNewTest } = useContext(TestContext);
 
   const [formData, setFormData] = useState({
@@ -55,11 +58,11 @@ const Home = () => {
   };
 
   return (
-    <div className="bg-gray-100 w-screen flex flex-col  items-center">
-      <div className="bg-white  rounded-lg shadow-lg">
-        <h2 className="text-lg font-semibold mb-1 text-center">Legacy Test</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-2 w-screen px-3">
+    <div className={` test-container `}>
+      <div className={` test-form `}>
+        <h2>Legacy Test</h2>
+        <form onSubmit={handleSubmit} className="form">
+          <div className="test-input-box  ">
             <div>
               <label htmlFor="market_variant" className="text-gray-600 text-xs">
                 Market Variant:
@@ -164,7 +167,7 @@ const Home = () => {
           <div className="w-full flex justify-center items-center mt-2">
             <button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mb-2"
+              className="btn bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mb-2"
             >
               Submit
             </button>

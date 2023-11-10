@@ -1,0 +1,22 @@
+.legend-container {
+  display: flex;
+  justify-content: center;
+}
+
+.legend {
+  display: flex;
+  gap: 2rem;
+  padding: 0.6rem 5rem;
+  border: 2px solid #52718f;
+}
+
+.legend-square {
+  display: flex;
+  align-items: center;
+}
+
+.legend-square-inner {
+  width: 0.75rem;
+  height: 0.75rem;
+  margin-right: 10px;
+}

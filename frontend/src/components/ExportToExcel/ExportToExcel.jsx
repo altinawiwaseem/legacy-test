@@ -208,7 +208,7 @@ function ExportToExcel({ data }) {
 
   return (
     <button
-      className="mt-2 bg-white text-2xl rounded-full p-1"
+      className="icon"
       style={{ color: "blue" }}
       onClick={() => generateExcel(data)}
     >

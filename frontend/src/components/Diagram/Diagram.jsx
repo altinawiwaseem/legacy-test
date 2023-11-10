@@ -1,7 +1,10 @@
-import React, { useCallback } from "react";
-import Legend from "./Legend";
+import React, { useCallback, useContext } from "react";
+import Legend from "../Legend/Legend";
+import "./Diagram.css";
+import { ThemeContext } from "../Context/ThemeContext/ThemeContext";
 
 const Diagram = ({ data, groupedBy, onBarClick }) => {
+  const { theme } = useContext(ThemeContext);
   const handleBarClick = useCallback(
     (item) => {
       if (onBarClick) {
@@ -12,16 +15,10 @@ const Diagram = ({ data, groupedBy, onBarClick }) => {
   );
 
   if (!data || data.length === 0) {
-    return null; // No data to render
+    return null;
   }
 
   const dataArray = Array.isArray(data) ? data : [data];
-
-  const colorData = [
-    { color: "bg-gray-500", description: "Not Testable" },
-    { color: "bg-red-500", description: "Fail" },
-    { color: "bg-green-500", description: "Pass" },
-  ];
 
   const getGroupHeader = (group) => {
     switch (groupedBy) {
@@ -29,7 +26,7 @@ const Diagram = ({ data, groupedBy, onBarClick }) => {
         const uniqueProjects = [
           ...new Set(group.data.map((item) => item.project)),
         ];
-        return `Project: ${uniqueProjects.join(", ")}`;
+        return `${uniqueProjects.join(", ")}`;
       case "stable":
         const hasTrue = group.data.some((item) => item.stable === true);
 
@@ -43,12 +40,12 @@ const Diagram = ({ data, groupedBy, onBarClick }) => {
         const uniqueTestObject = [
           ...new Set(group.data.map((item) => item.test_object)),
         ];
-        return `Test Object: ${uniqueTestObject.join(", ")}`;
+        return ` ${uniqueTestObject.join(", ")}`;
       case "market_variant":
         const uniqueMarketVariant = [
           ...new Set(group.data.map((item) => item.market_variant)),
         ];
-        return `Market Variant: ${uniqueMarketVariant.join(", ")}`;
+        return ` ${uniqueMarketVariant.join(", ")}`;
       case "none":
         return "";
       default:
@@ -69,30 +66,27 @@ const Diagram = ({ data, groupedBy, onBarClick }) => {
     const maxBarHeight = 200;
 
     return (
-      <div
-        className="m-2 p-2 flex flex-col items-center w-32 border-2 cursor-pointer hover:bg-blue-100"
-        onClick={() => handleBarClick(item)}
-      >
+      <div className="diagram-container" onClick={() => handleBarClick(item)}>
         <div
-          className={`box-content relative h-[200px] w-24 mx-4 ${
-            item.stable ? "" : "border-dashed border-2 border-gray-500"
+          className={`diagram-box ${
+            item.stable ? "diagram-stable" : "diagram-unstable"
           }`}
         >
           <div
-            className="flex flex-col-reverse"
+            className="diagram-flex-container"
             style={{ height: `${maxBarHeight}px` }}
           >
             <div
               style={{
                 height: `${(resultsCount.pass / totalTests) * maxBarHeight}px`,
               }}
-              className="bg-green-500"
+              className="diagram-pass-color"
             ></div>
             <div
               style={{
                 height: `${(resultsCount.fail / totalTests) * maxBarHeight}px`,
               }}
-              className="bg-red-500"
+              className="diagram-fail-color"
             ></div>
             <div
               style={{
@@ -100,7 +94,7 @@ const Diagram = ({ data, groupedBy, onBarClick }) => {
                   (resultsCount.not_testable / totalTests) * maxBarHeight
                 }px`,
               }}
-              className="bg-gray-500"
+              className="diagram-not-testable-color"
             ></div>
             <div
               style={{
@@ -113,63 +107,57 @@ const Diagram = ({ data, groupedBy, onBarClick }) => {
                   maxBarHeight
                 }px`,
               }}
-              className="bg-gray-200"
+              className="diagram-gray-color"
             ></div>
           </div>
         </div>
-        <table className="text-xs border border-gray-400 w-full">
+        <table className={`diagram-table ${theme}`}>
           <tbody>
             <tr>
-              <td className="px-4 py-1 border-b border-gray-400 font-semibold">
-                {item.created_at.split("T")[0]}
+              <td className="diagram-td">{item.created_at.split("T")[0]}</td>
+            </tr>
+            <tr>
+              <td className="diagram-td">{item.build_number}</td>
+            </tr>
+            <tr>
+              <td className="diagram-td">
+                {item.test_object === "REMOTE_TARGET"
+                  ? "REMOTE TARGET"
+                  : item.test_object}
               </td>
             </tr>
             <tr>
-              <td className="px-4 py-1 border-b border-gray-400 font-semibold">
-                {item.build_number}
-              </td>
+              <td className="diagram-td">{item.market_variant}</td>
             </tr>
             <tr>
-              <td className="px-4 py-1 border-b border-gray-400 font-semibold">
-                {item.test_object}
-              </td>
+              <td className="diagram-td">{item.project}</td>
             </tr>
             <tr>
-              <td className="px-4 py-1 border-b border-gray-400 font-semibold">
-                {item.market_variant}
-              </td>
-            </tr>
-            <tr>
-              <td className="px-4 py-1 border-b border-gray-400 font-semibold">
-                {item.project}
-              </td>
-            </tr>
-            <tr>
-              <td className="px-4 py-1 border-b border-gray-400 font-semibold">
-                <div className="flex items-center space-x-2">
-                  <div className={`w-3 h-3 bg-gray-500`}></div>
+              <td className="diagram-td">
+                <div className="diagram-square">
+                  <div className="diagram-not-testable-color diagram-square-inner"></div>
                   <span>{resultsCount.not_testable}</span>
                 </div>
               </td>
             </tr>
             <tr>
-              <td className="px-4 py-1 border-b border-gray-400 font-semibold">
-                <div className="flex items-center space-x-2">
-                  <div className={`w-3 h-3 bg-red-500`}></div>
+              <td className="diagram-td">
+                <div className="diagram-square">
+                  <div className="diagram-fail-color diagram-square-inner"></div>
                   <span>{resultsCount.fail}</span>
                 </div>
               </td>
             </tr>
             <tr>
-              <td className="px-4 py-1 border-b border-gray-400 font-semibold">
-                <div className="flex items-center space-x-2">
-                  <div className={`w-3 h-3 bg-green-500`}></div>
+              <td className="diagram-td">
+                <div className="diagram-square">
+                  <div className="diagram-pass-color diagram-square-inner"></div>
                   <span>{resultsCount.pass}</span>
                 </div>
               </td>
             </tr>
             <tr>
-              <td className="px-4 py-1 font-semibold">
+              <td className="diagram-td">
                 {item.stable ? "Stable" : "Not Stable"}
               </td>
             </tr>
@@ -180,17 +168,14 @@ const Diagram = ({ data, groupedBy, onBarClick }) => {
   };
 
   return (
-    <div className="flex flex-col items-center space-y-4  ">
+    <div className="diagrams-group-container  ">
       {dataArray.map((group, groupIndex) => (
-        <div
-          key={`group-${groupIndex}`}
-          className="flex flex-col items-center space-y-4 w-full"
-        >
-          <div className="text-xl font-bold">{getGroupHeader(group)}</div>
-          <div className="flex flex-wrap  items-center p-4 border-2 border-gray-500 w-full">
+        <div key={`group-${groupIndex}`} className="diagram-groups ">
+          <div className={`group-text  `}>{getGroupHeader(group)}</div>
+          <div className={` diagrams-group  `}>
             {group.data
               ? group.data.map((item, itemIndex) => (
-                  <div key={`item-${itemIndex}`} className="m-2">
+                  <div key={`item-${itemIndex}`} className="diagram-bar">
                     {renderDiagramBar(item)}
                   </div>
                 ))
@@ -198,7 +183,7 @@ const Diagram = ({ data, groupedBy, onBarClick }) => {
           </div>
         </div>
       ))}
-      <Legend colorData={colorData} />
+      <Legend />
     </div>
   );
 };

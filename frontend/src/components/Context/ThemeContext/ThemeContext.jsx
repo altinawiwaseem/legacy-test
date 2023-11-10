@@ -12,7 +12,6 @@ export const ThemeProvider = ({ children }) => {
 
   const toggleTheme = (selectedTheme) => {
     setTheme(selectedTheme);
-    window.localStorage.setItem("theme", selectedTheme);
   };
 
   return (

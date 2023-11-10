@@ -22,13 +22,6 @@ const UserSchema = new Schema({
 
   dates: { registered: { type: Date, default: Date.now }, last_active: Date },
   admin: Boolean,
-  testResults: {
-    sessionId: String,
-    createdOn: { type: Date, default: Date.now },
-    type: Array,
-  },
 });
 
-const User = model("user", UserSchema);
-
-export default User;
+export const User = model("User", UserSchema);

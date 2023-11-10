@@ -3,11 +3,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Diagram from "../Diagram/Diagram";
 import Pagination from "../Pagination/Pagination";
-import TestSession from "../TestSession/TestSession";
+
 import DisplayTestModal from "../DisplayTestModal/DisplayTestModal";
 import { TestContext } from "../Context/TestContext/TestContext";
+import { ThemeContext } from "../Context/ThemeContext/ThemeContext";
+import "./FetchSession.css";
 
 const FetchSessionData = () => {
+  const { theme } = useContext(ThemeContext);
   const [dateRange, setDateRange] = useState({ startDate: "", endDate: "" });
   const [selectedProjects, setSelectedProjects] = useState([]);
   const [data, setData] = useState([]);
@@ -20,17 +23,26 @@ const FetchSessionData = () => {
   const initialMount = useRef(true);
 
   const [totalPages, setTotalPages] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(50); // default value
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [testData, setTestData] = useState(null);
 
   const { setDisplayTestData } = useContext(TestContext);
 
+  const storedItemsPerPage = localStorage.getItem("itemsPerPage");
+  const [itemsPerPage, setItemsPerPage] = useState(
+    storedItemsPerPage ? Number(storedItemsPerPage) : 50
+  );
+
+  useEffect(() => {
+    localStorage.setItem("itemsPerPage", itemsPerPage);
+  }, [itemsPerPage]);
+
   const navigate = useNavigate();
   const location = useLocation();
 
   const searchParams = new URLSearchParams(location.search);
-  const pageFromUrl = searchParams.get("page");
+  let pageFromUrl = searchParams.get("page");
 
   if (isNaN(pageFromUrl)) {
     pageFromUrl = 1;
@@ -90,7 +102,7 @@ const FetchSessionData = () => {
     }
   };
 
-  const previousPageFromUrl = useRef(pageFromUrl);
+  /*   const previousPageFromUrl = useRef(pageFromUrl); */
 
   useEffect(() => {
     if (initialMount.current && !pageFromUrl) {
@@ -101,15 +113,15 @@ const FetchSessionData = () => {
     fetchData(parseInt(pageFromUrl) || 1);
   }, [pageFromUrl]);
 
-  const handleBarClick = async (data) => {
+  /*  const handleBarClick = async (data) => {
     try {
       localStorage.setItem("displayTestData", JSON.stringify(data));
       handleOpenModal(data);
-      /* navigate("/view-test-data"); */
+      
     } catch (error) {
       console.error("Error handling click:", error);
     }
-  };
+  }; */
 
   const handleOpenModal = (data) => {
     setDisplayTestData(data);
@@ -121,99 +133,99 @@ const FetchSessionData = () => {
     setIsModalOpen(false);
   };
   const handleEdit = () => {
-    console.log("testdata", testData);
     localStorage.setItem("testSteps", JSON.stringify(testData));
     setIsModalOpen(false);
     navigate("/testsession", { state: { data: testData } });
   };
 
   return (
-    <div className="m-4 p-4 bg-gray-100 rounded relative">
-      <div className="flex space-x-4 mb-4">
-        <span>Start Date:</span>
-        <input
-          type="date"
-          value={dateRange.startDate}
-          onChange={(e) =>
-            setDateRange((prev) => ({ ...prev, startDate: e.target.value }))
-          }
-          className="border p-2 rounded"
-        />
-        <span>End Date:</span>
-        <input
-          type="date"
-          value={dateRange.endDate}
-          onChange={(e) =>
-            setDateRange((prev) => ({ ...prev, endDate: e.target.value }))
-          }
-          className="border p-2 rounded"
-        />
-      </div>
-
-      {/* Project selection */}
-      <div className="flex flex-wrap items-center mb-4">
-        <span className="mr-4">Projects:</span>
-        {["F380", "F307", "F386", "F61"].map((project) => (
-          <label key={project} className="flex items-center mr-4">
-            <input
-              type="checkbox"
-              value={project}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setSelectedProjects((prev) => [...prev, e.target.value]);
-                } else {
-                  setSelectedProjects((prev) =>
-                    prev.filter((p) => p !== e.target.value)
-                  );
+    <div className={`  ${theme}`}>
+      <div className={`container ${theme}`}>
+        <div className={`date-picker ${theme}`}>
+          <div>
+            <label>
+              <span>Start Date:</span>
+              <input
+                type="date"
+                value={dateRange.startDate}
+                onChange={(e) =>
+                  setDateRange((prev) => ({
+                    ...prev,
+                    startDate: e.target.value,
+                  }))
                 }
-              }}
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              <span>End Date:</span>
+              <input
+                type="date"
+                value={dateRange.endDate}
+                onChange={(e) =>
+                  setDateRange((prev) => ({ ...prev, endDate: e.target.value }))
+                }
+                className={`end-date-input`}
+              />
+            </label>
+          </div>
+        </div>
+        <div className="check-box-container">
+          <div className="check-box">
+            {/* Project selection */}
+            <div className="project-selection">
+              <span className="project-label">Projects:</span>
+              {["F380", "F307", "F386", "F61"].map((project) => (
+                <label key={project} className="project-label">
+                  <input
+                    type="checkbox"
+                    value={project}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedProjects((prev) => [
+                          ...prev,
+                          e.target.value,
+                        ]);
+                      } else {
+                        setSelectedProjects((prev) =>
+                          prev.filter((p) => p !== e.target.value)
+                        );
+                      }
+                    }}
+                  />
+                  <span className="project-name">{project}</span>
+                </label>
+              ))}
+            </div>
+
+            <div className="fetch-all">
+              <label className="fetch-all-label">
+                <input
+                  type="checkbox"
+                  onChange={(e) => setFetchAll(e.target.checked)}
+                />
+                <span className="fetch-all-text ">Fetch All</span>
+              </label>
+            </div>
+          </div>
+          <div className="items-per-page">
+            <label>Items per Page:</label>
+            <input
+              type="number"
+              value={itemsPerPage}
+              onChange={(e) => setItemsPerPage(e.target.value)}
+              className="items-per-page-input"
             />
-            <span className="ml-2">{project}</span>
-          </label>
-        ))}
-      </div>
-
-      <div className="mb-4">
-        <label className="flex items-center">
-          <input
-            type="checkbox"
-            onChange={(e) => setFetchAll(e.target.checked)}
-          />
-          <span className="ml-2">Fetch All</span>
-        </label>
-      </div>
-
-      <button
-        onClick={() => fetchData(1)}
-        className="bg-blue-500 text-white p-2 rounded"
-      >
-        Fetch Data
-      </button>
-
-      <div className="mb-4">
-        <label className="mr-2">Group by:</label>
-        <select
-          value={grouping}
-          onChange={(e) => setGrouping(e.target.value)}
-          className="border p-2"
-        >
-          <option value="none">None</option>
-          <option value="project">Project</option>
-
-          <option value="test_object">Test Object</option>
-          <option value="market_variant">Market Variant</option>
-          <option value="stable">Stability </option>
-        </select>
-        <div className="mb-4">
-          <label>Items per Page:</label>
-          <input
-            type="number"
-            value={itemsPerPage}
-            onChange={(e) => setItemsPerPage(e.target.value)}
-            className="border p-2"
-          />
+          </div>
+        </div>
+        <div className="search-button">
+          <button onClick={() => fetchData(1)} className="fetch-button btn">
+            Search
+          </button>
         </div>
       </div>
+
       {pageData && (
         <div>
           <Pagination
@@ -223,7 +235,26 @@ const FetchSessionData = () => {
           />
         </div>
       )}
-      <div>
+      {pageData && (
+        <div className="group-by">
+          <label className="group-by-label">
+            <span>Group by:</span>
+            <select
+              value={grouping}
+              onChange={(e) => setGrouping(e.target.value)}
+              className="group-by-select"
+            >
+              <option value="none">None</option>
+              <option value="project">Project</option>
+              <option value="test_object">Test Object</option>
+              <option value="market_variant">Market Variant</option>
+              <option value="stable">Stability</option>
+            </select>
+          </label>
+        </div>
+      )}
+
+      <div className="diagram-div-container" style={{ display: "flex" }}>
         <Diagram
           data={data}
           groupedBy={grouping}

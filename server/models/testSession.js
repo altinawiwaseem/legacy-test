@@ -37,6 +37,4 @@ export const TestSessionSchema = new Schema({
   },
 });
 TestSessionSchema.index({ created_at: -1 });
-const TestSession = model("testSession", TestSessionSchema);
-
-export default TestSession;
+export const TestSession = model("TestSession", TestSessionSchema);

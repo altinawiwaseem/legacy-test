@@ -1,0 +1,25 @@
+div.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+div.pagination button {
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Style the disabled buttons */
+div.pagination button[disabled] {
+  background-color: #ccc; /* Set a background color for disabled buttons */
+  cursor: not-allowed;
+}
+
+/* Style the page numbers */
+div.pagination span.page-number {
+  padding: 5px 10px; /* Adjust the padding as needed */
+  background-color: #f0f0f0; /* Set your page number background color */
+  color: #333; /* Set your page number text color */
+}

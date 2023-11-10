@@ -1,0 +1,155 @@
+.light {
+  background-color: var(--light-background);
+  color: var(--light-text);
+}
+
+.dark {
+  background-color: var(--dark-background);
+  color: var(--dark-text);
+  border-color: var(--dark-border);
+}
+
+.high-contrast {
+  background-color: var(--contrast-background);
+  color: var(--contrast-text);
+  border-color: var(--contrast-text);
+}
+
+/* .dark input {
+  background-color: var(--dark-background);
+  color: var(--dark-text);
+  border-color: var(--dark-border);
+}
+
+.dark select {
+  background-color: var(--dark-background);
+  color: var(--dark-text);
+  border-color: var(--dark-border);
+}
+
+.dark select option {
+  background-color: var(--dark-background);
+  color: var(--dark-text);
+}
+
+.high-contrast input {
+  background-color: var(--contrast-background);
+  color: var(--contrast-text);
+  border-color: var(--contrast-text);
+}
+
+.high-contrast select {
+  background-color: var(--contrast-background);
+  color: var(--contrast-text);
+  border-color: var(--contrast-text);
+}
+
+.high-contrast select option {
+  background-color: var(--contrast-background);
+  color: var(--contrast-text);
+  border-color: var(--contrast-text);
+} */
+
+.high-contrast .btn {
+  background-color: var(--contrast-text);
+  color: var(--contrast-background);
+}
+
+.dark .btn,
+.light .btn {
+  background-color: var(--primary-button-color);
+  color: var(--primary-button-text);
+}
+
+.light table,
+.light th,
+.light td {
+  border-color: var(--light-text);
+}
+
+/* .dark table,
+.dark th,
+.dark td {
+  border-color: var(--dark-border);
+} */
+
+.high-contrast table,
+.high-contrast th,
+.high-contrast td {
+  border-color: var(--contrast-text);
+}
+
+.light table tbody tr:nth-child(even),
+.light table tbody tr:nth-child(even) input,
+.light table tbody tr:nth-child(even) select,
+.light table thead tr {
+  background-color: #d3d3d3;
+}
+
+.light table tbody tr:nth-child(even):hover,
+.light table tbody tr:hover input,
+.light table tbody tr:hover select,
+.light table tr:hover {
+  background-color: #a1a1a1;
+}
+
+.dark table tbody tr:nth-child(even),
+.dark table tbody tr:nth-child(even) input,
+.dark table tbody tr:nth-child(even) select,
+.dark table thead tr {
+  background-color: #333;
+}
+
+.dark table tr:nth-child(even):hover,
+.dark table tbody tr:hover input,
+.dark table tbody tr:hover select,
+.dark table tr:hover {
+  background-color: #000;
+}
+
+.high-contrast table tbody tr:nth-child(even),
+.high-contrast table tbody tr:nth-child(even) input,
+.high-contrast table tbody tr:nth-child(even) select,
+.high-contrast table thead tr {
+  background-color: #505050;
+}
+
+.high-contrast table tbody tr:nth-child(even):hover,
+.high-contrast table tbody tr:hover input,
+.high-contrast table tbody tr:hover select,
+.high-contrast table tbody tr:hover {
+  background-color: #0000ff;
+}
+
+.light .diagram-pass-color,
+.dark .diagram-pass-color {
+  background-color: #008000;
+}
+
+.light .diagram-fail-color,
+.dark .diagram-fail-color {
+  background-color: #ff0000;
+}
+
+.light .diagram-not-testable-color,
+.dark .diagram-not-testable-color {
+  background-color: #808080;
+}
+
+.light .diagram-gray-color,
+.dark .diagram-gray-color {
+  background-color: #d3d3d3;
+}
+
+.high-contrast .diagram-pass-color {
+  background-color: #0000ff;
+}
+.high-contrast .diagram-fail-color {
+  background-color: #ffa500;
+}
+.high-contrast .diagram-not-testable-color {
+  background-color: #a52a2a;
+}
+.high-contrast .diagram-gray-color {
+  background-color: #aaaaaa;
+}

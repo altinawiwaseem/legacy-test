@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import { generateToken } from "../helpers/authenticationHelper.js";
-import User from "../models/user.js";
+import { User } from "../models/user.js";
 dotenv.config();
 const strongPasswordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;

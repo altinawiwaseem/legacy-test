@@ -21,6 +21,13 @@ export const TestStepsSchema = new Schema({
     enum: ["Pass", "Fail", "Not Testable", ""],
   },
   actual_result: { type: String, default: "" },
+  imageId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Image",
+  },
+  thumbnail: [Number],
+  thumbnailContentType: String,
+  image_name: String,
 });
 
-export const StepsData = model("stepsData", TestStepsSchema);
+export const StepsData = model("StepsData", TestStepsSchema);

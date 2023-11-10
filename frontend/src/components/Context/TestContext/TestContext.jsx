@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 const TestContext = createContext(null);
 
 const TestContextProvider = ({ children }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
+
   const navigate = useNavigate();
 
   const getUser = JSON.parse(localStorage.getItem("user"));
@@ -107,17 +110,24 @@ const TestContextProvider = ({ children }) => {
     }
   };
 
-  const getResultBackgroundColor = (result) => {
-    switch (result) {
-      case "Pass":
-        return "green-500";
-      case "Fail":
-        return "red-500";
-      case "Not_Testable":
-        return "gray-400";
-      default:
-        return "bg-gray-200";
+  const handleImage = (thumbnailData, thumbnailContentType) => {
+    if (thumbnailData && thumbnailData.length > 0 && thumbnailContentType) {
+      const data = new Uint8Array(thumbnailData);
+      const blob = new Blob([data], { type: thumbnailContentType });
+      const url = URL.createObjectURL(blob);
+      return url;
     }
+    return null;
+  };
+
+  const openModal = async (imageId) => {
+    setSelectedImage(imageId);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setSelectedImage("");
+    setIsModalOpen(false);
   };
 
   return (
@@ -133,7 +143,12 @@ const TestContextProvider = ({ children }) => {
         setStepsData,
         setDisplayTestData,
         displayTestData,
-        getResultBackgroundColor,
+
+        handleImage,
+        openModal,
+        closeModal,
+        selectedImage,
+        isModalOpen,
       }}
     >
       {children}

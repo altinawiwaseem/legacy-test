@@ -1,49 +1,54 @@
 import React, { useContext } from "react";
-import ColorModeSwitcher from "../Context/ThemeContext/ColorModeSwitcher";
 import { ThemeContext } from "../Context/ThemeContext/ThemeContext";
 import "./Header.css";
 import { UserContext } from "../Context/UserContext/UserContext";
+import ThemeSwitcher from "../Context/ThemeContext/ThemeSwitcher";
+import logo from "../../images/j-service-logo.png";
 
 const Header = () => {
   const { theme } = useContext(ThemeContext);
   const { user } = useContext(UserContext);
-  console.log("ee", user);
+
   return (
     <header className={`${theme} header`}>
-      {user ? (
-        <>
-          <div className="logo">LOGO</div>
-          <nav>
-            <ul className="nav-bar">
-              <li>
-                <a href="/search">Search</a>
-              </li>
-              <li>
-                <a href="/">Test</a>
-              </li>
+      <div className="logo">
+        <img className="logo-img" src={logo} alt="logo" />
+      </div>
+      <div className="nav">
+        <nav>
+          <ul className="nav-bar">
+            <li>
+              <a href="/search">Search</a>
+            </li>
+            <li>
+              <a href="/">Test</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
 
+      <div className="user-info">
+        {user ? (
+          <>
+            <div className="username">{`${user.firstName} ${user.lastName}`}</div>
+            <ThemeSwitcher />
+          </>
+        ) : (
+          <>
+            <ul className="nav-bar">
+              {" "}
               <li>
-                <ColorModeSwitcher />
+                <a href="/login">Log in</a>
+              </li>
+              <li>
+                {" "}
+                <a href="/register">Register</a>{" "}
               </li>
             </ul>
-          </nav>
-          <div className="username">{`${user.firstName} ${user.lastName}`}</div>{" "}
-        </>
-      ) : (
-        <ul className="nav-bar">
-          {" "}
-          <li>
-            <a href="/login">Log in</a>
-          </li>
-          <li>
-            {" "}
-            <a href="/register">Register</a>{" "}
-          </li>
-          <li>
-            <ColorModeSwitcher />
-          </li>
-        </ul>
-      )}
+            <ThemeSwitcher />
+          </>
+        )}
+      </div>
     </header>
   );
 };

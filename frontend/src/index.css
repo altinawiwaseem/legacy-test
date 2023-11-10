@@ -1,8 +1,24 @@
-@tailwind components;
-@tailwind utilities;
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+.App {
+  height: 100vh;
+}
+
+body {
+  background-color: var(--light-background);
+  color: var(--light-text);
+}
+
+body.dark {
+  background-color: var(--dark-background);
+  color: var(--dark-text);
+}
+
+body.contrast {
+  background-color: var(--contrast-background);
+  color: var(--contrast-text);
+  box-shadow: var(--contrast-shadow);
 }

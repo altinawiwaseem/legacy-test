@@ -1,0 +1,96 @@
+.light .test-container {
+  box-shadow: var(--light-shadow);
+}
+
+/* Dark Theme */
+.dark .test-container {
+  box-shadow: var(--dark-shadow);
+}
+
+/* High Contrast Theme */
+.high-contrast .test-container {
+  box-shadow: var(--contrast-shadow);
+}
+
+.test-container {
+  width: 100%;
+  display: flex;
+  padding: 1rem;
+  /* justify-content: center;
+  align-items: center; */
+}
+
+.test-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.test-form .form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.test-input-box {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 0.5rem;
+  width: 100vw;
+  padding: 0.75rem;
+}
+
+.test-input-box input,
+.test-input-box select {
+  padding: 8px;
+  border-radius: 5px;
+  width: 250px;
+}
+
+.test-input-box div {
+  width: 390px;
+  text-align: left;
+  justify-content: space-between;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+
+  margin-top: 0.25rem;
+}
+.test-input-box div > :first-child {
+  flex-grow: 1;
+}
+
+@media only screen and (max-width: 900px) {
+  .test-input-box {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .test-input-box input,
+  .test-input-box select {
+    padding: 0.5em;
+    width: 200px;
+  }
+}
+
+@media only screen and (max-width: 780px) {
+  .test-input-box {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .test-input-box div {
+    width: 330px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .test-input-box {
+    grid-template-columns: 1fr;
+  }
+}

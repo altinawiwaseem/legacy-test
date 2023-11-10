@@ -1,0 +1,63 @@
+.btn {
+  padding: 1em;
+  width: 14rem;
+  border-radius: 5px;
+  border: none;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid;
+}
+
+.table th,
+.table td {
+  border: 1px solid;
+}
+
+.table .empty-input {
+  border: 2px solid red;
+}
+
+.table th {
+  font-weight: bold;
+  text-align: left;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+}
+
+.table-4 {
+  table-layout: fixed;
+  width: 100%;
+}
+.table-5 {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.no-border {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.table.no-border input,
+.table.no-border select {
+  border: none;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  box-shadow: none;
+}
+.padding {
+  padding: 12px;
+}
+
+.padding th {
+  padding: 12px;
+}
