@@ -138,9 +138,12 @@ const Home = () => {
               >
                 <option value="">Select a Project</option>
                 <option value="F380">F380</option>
-                <option value="F307">F307</option>
                 <option value="F386">F386</option>
                 <option value="F61">F61</option>
+                <option value="F308">F308</option>
+                <option value="F309">F309</option>
+                <option value="F390">F390</option>
+                <option value="F307">F307</option>
               </select>
               <span className="text-red-500 text-xs block mt-1">
                 {errors.project}

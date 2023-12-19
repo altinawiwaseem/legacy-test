@@ -31,6 +31,7 @@ export const createTestSession = async (req, res) => {
     project,
     build_number,
     stable,
+    kw,
   } = req.body;
 
   const steps = await StepsData.find({});
@@ -41,7 +42,7 @@ export const createTestSession = async (req, res) => {
       user,
       steps,
       username,
-
+      kw,
       market_variant,
       screen_size,
       test_object,

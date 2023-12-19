@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ConfirmModal from "../ConfirmModal/ConfirmModal ";
 import Diagram from "../Diagram/Diagram";
 import axios from "axios";
@@ -27,7 +27,7 @@ const TestSession = ({ data, user }) => {
   const initialData = localStorage.getItem("testSteps")
     ? JSON.parse(localStorage.getItem("testSteps"))
     : data;
-
+  const [weekNumber, setWeekNumber] = useState("");
   const [editedData, setEditedData] = useState(initialData);
   const navigate = useNavigate();
 
@@ -84,9 +84,12 @@ const TestSession = ({ data, user }) => {
   }, 300);
 
   const handleEdit = (field, value, stepIndex = null) => {
+    console.log(field);
+    console.log(value);
+
     setEditedData((prevData) => {
       const editedBy = `${user?.firstName} ${user?.lastName}`;
-      const updatedData = { ...prevData, edited_by: editedBy };
+      const updatedData = { ...prevData, edited_by: editedBy, kw: weekNumber };
 
       if (stepIndex !== null) {
         updatedData.steps = prevData.steps.map((step, index) => {
@@ -276,8 +279,8 @@ const TestSession = ({ data, user }) => {
                   <th>Tester</th>
                   <th>Edited By</th>
                   <th>Date</th>
+                  <th>KW</th>
                   <th>Stable</th>
-                  <th>Build Number</th>
                 </tr>
               </thead>
 
@@ -303,6 +306,21 @@ const TestSession = ({ data, user }) => {
                     }`}
                     />
                   </td>
+
+                  <td data-name={`kw`}>
+                    <input
+                      name="kw"
+                      type="text"
+                      value={editedData?.kw}
+                      onChange={(e) => handleEdit("kw", e.target.value)}
+                      className={`
+                    ${
+                      emptyFields.includes(`kw`)
+                        ? "border-2 border-red-500"
+                        : ""
+                    }`}
+                    />
+                  </td>
                   <td data-name={`stable`}>
                     <select
                       value={editedData?.stable}
@@ -320,6 +338,39 @@ const TestSession = ({ data, user }) => {
                       <option value="false">False</option>
                     </select>
                   </td>
+                  {/*  <td data-name={`build_number`}>
+                    <input
+                      name="build_number"
+                      type="text"
+                      value={editedData?.build_number}
+                      onChange={(e) =>
+                        handleEdit("build_number", e.target.value)
+                      }
+                      className={`
+                    ${
+                      emptyFields.includes(`build_number`)
+                        ? "border-2 border-red-500"
+                        : ""
+                    }`}
+                    />
+                  </td> */}
+                </tr>
+              </tbody>
+            </table>
+
+            <table className="table table-5 padding no-border">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th>Build Number</th>
+                  <th>Market Variant</th>
+                  <th>Project</th>
+                  <th>Screen Size</th>
+                  <th>Test Object</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
                   <td data-name={`build_number`}>
                     <input
                       name="build_number"
@@ -336,22 +387,6 @@ const TestSession = ({ data, user }) => {
                     }`}
                     />
                   </td>
-                </tr>
-              </tbody>
-            </table>
-
-            <table className="table table-5 padding no-border">
-              <thead>
-                <tr className="bg-gray-200">
-                  <th>Market Variant</th>
-                  <th>Project</th>
-                  <th>Screen Size</th>
-                  <th>Test Object</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr>
                   <td name={`market_variant`}>
                     <select
                       type="text"
@@ -392,9 +427,12 @@ const TestSession = ({ data, user }) => {
                       {" "}
                       <option value="">Select a Project</option>
                       <option value="F380">F380</option>
-                      <option value="F307">F307</option>
                       <option value="F386">F386</option>
                       <option value="F61">F61</option>
+                      <option value="F308">F308</option>
+                      <option value="F309">F309</option>
+                      <option value="F390">F390</option>
+                      <option value="F307">F307</option>
                     </select>
                   </td>
                   <td data-name={`screen_size`}>

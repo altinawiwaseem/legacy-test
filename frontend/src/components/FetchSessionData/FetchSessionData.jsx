@@ -176,27 +176,29 @@ const FetchSessionData = () => {
             {/* Project selection */}
             <div className="project-selection">
               <span className="project-label">Projects:</span>
-              {["F380", "F307", "F386", "F61"].map((project) => (
-                <label key={project} className="project-label">
-                  <input
-                    type="checkbox"
-                    value={project}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setSelectedProjects((prev) => [
-                          ...prev,
-                          e.target.value,
-                        ]);
-                      } else {
-                        setSelectedProjects((prev) =>
-                          prev.filter((p) => p !== e.target.value)
-                        );
-                      }
-                    }}
-                  />
-                  <span className="project-name">{project}</span>
-                </label>
-              ))}
+              {["F380", "F386", "F61", "F308", "F309", "F390", "F307"].map(
+                (project) => (
+                  <label key={project} className="project-label">
+                    <input
+                      type="checkbox"
+                      value={project}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedProjects((prev) => [
+                            ...prev,
+                            e.target.value,
+                          ]);
+                        } else {
+                          setSelectedProjects((prev) =>
+                            prev.filter((p) => p !== e.target.value)
+                          );
+                        }
+                      }}
+                    />
+                    <span className="project-name">{project}</span>
+                  </label>
+                )
+              )}
             </div>
 
             <div className="fetch-all">

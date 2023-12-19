@@ -41,6 +41,22 @@ const TestContextProvider = ({ children }) => {
 
   const [displayTestData, setDisplayTestData] = useState([]);
 
+  const getISOWeekNumber = (date) => {
+    const target = new Date(date);
+    target.setHours(0, 0, 0, 0);
+    target.setDate(target.getDate() + 3 - ((target.getDay() + 6) % 7));
+    const week1 = new Date(target.getFullYear(), 0, 4);
+    return (
+      1 +
+      Math.round(
+        ((target.getTime() - week1.getTime()) / 86400000 -
+          3 +
+          ((week1.getDay() + 6) % 7)) /
+          7
+      )
+    );
+  };
+
   const handleNewTest = (
     market_variant,
     screen_size,
@@ -69,12 +85,14 @@ const TestContextProvider = ({ children }) => {
     const { market_variant, screen_size, test_object, project, build_number } =
       formData;
     try {
+      const today = new Date();
+      const kw = getISOWeekNumber(today);
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/api/createtestsession`,
         {
           username: getUser.firstName + " " + getUser.lastName,
           user: getUser._id,
-
+          kw: kw,
           market_variant: market_variant,
           screen_size: screen_size,
           test_object: test_object,

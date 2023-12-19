@@ -12,7 +12,10 @@ const Header = () => {
   return (
     <header className={`${theme} header`}>
       <div className="logo">
-        <img className="logo-img" src={logo} alt="logo" />
+        <a href="/">
+          {" "}
+          <img className="logo-img" src={logo} alt="logo" />
+        </a>
       </div>
       <div className="nav">
         <nav>

@@ -21,8 +21,13 @@ export const TestSessionSchema = new Schema({
   },
   project: {
     type: String,
-    enum: ["F380", "F307", "F386", "F61"],
+    enum: ["F380", "F307", "F386", "F61", "F308", "F309", "F390"],
     required: [true, "project is required"],
+  },
+
+  kw: {
+    type: String,
+    required: [true, "calender week is required"],
   },
 
   steps: [TestStepsSchema],
