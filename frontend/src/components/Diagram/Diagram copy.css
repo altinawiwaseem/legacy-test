@@ -1,0 +1,99 @@
+/* Diagram */
+
+.diagram-container {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 7rem;
+  border-width: 2px;
+  cursor: pointer;
+}
+
+.diagram-box {
+  box-sizing: content-box;
+  height: 200px;
+  width: 5rem;
+}
+
+.diagram-stable {
+  border-style: solid;
+  border-width: 2px;
+  border-color: #a0aec0;
+}
+
+.diagram-unstable {
+  border-style: dashed;
+  border-width: 3px;
+  border-color: #3680e0;
+}
+
+/* Flex Container */
+.diagram-flex-container {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+/* Table */
+.diagram-table {
+  font-size: 0.75rem;
+  border: 1px solid;
+  width: 100%;
+  height: 250px;
+}
+
+/* Table Data Cells */
+.diagram-td {
+  padding: 0.25rem;
+  font-weight: 600;
+  border-top: 1px solid;
+}
+
+/* Squares */
+.diagram-square {
+  display: flex;
+  align-items: center;
+}
+
+.diagram-square-inner {
+  width: 0.75rem;
+  height: 0.75rem;
+  margin-right: 10px;
+}
+
+/* Diagrams-group */
+.diagrams-group-container {
+  width: 100%;
+  padding: 1rem;
+  gap: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.diagram-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+.diagrams-group {
+  width: 100%;
+  padding: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  border: solid 2px #52718f;
+}
+
+.group-text {
+  font-size: larger;
+  font-weight: bolder;
+  text-align: center;
+  text-decoration: underline;
+}
+
+.diagram-bar {
+  margin: 2px;
+}

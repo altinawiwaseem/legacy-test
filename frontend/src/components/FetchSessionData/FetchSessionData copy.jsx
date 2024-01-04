@@ -258,7 +258,6 @@ const FetchSessionData = () => {
 
       <div className="diagram-div-container" style={{ display: "flex" }}>
         <Diagram
-          originalData={originalData}
           data={data}
           groupedBy={grouping}
           onBarClick={handleOpenModal}
