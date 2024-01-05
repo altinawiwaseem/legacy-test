@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { getISOWeekNumber } from "../../../utils/getISOWeekNumber";
 
 const TestContext = createContext(null);
 
@@ -41,7 +42,7 @@ const TestContextProvider = ({ children }) => {
 
   const [displayTestData, setDisplayTestData] = useState([]);
 
-  const getISOWeekNumber = (date) => {
+  /* const getISOWeekNumber = (date) => {
     const target = new Date(date);
     target.setHours(0, 0, 0, 0);
     target.setDate(target.getDate() + 3 - ((target.getDay() + 6) % 7));
@@ -55,7 +56,7 @@ const TestContextProvider = ({ children }) => {
           7
       )
     );
-  };
+  }; */
 
   const handleNewTest = (
     market_variant,
@@ -117,7 +118,6 @@ const TestContextProvider = ({ children }) => {
         JSON.stringify(response.data.newTestSession._id)
       );
 
-      console.log(response.data.newTestSession);
       // Update state variables as needed
 
       setStepsData(response.data.newTestSession);

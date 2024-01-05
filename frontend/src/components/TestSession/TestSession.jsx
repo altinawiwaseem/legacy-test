@@ -8,8 +8,10 @@ import ImageModal from "../ImageModal/ImageModal";
 import { ThemeContext } from "../Context/ThemeContext/ThemeContext";
 import "../../styles/styles.css";
 import "./TestSession.css";
+import { getISOWeekNumber } from "../../utils/getISOWeekNumber";
 
 const TestSession = ({ data, user }) => {
+  console.log(data);
   const { handleImage, openModal, closeModal, isModalOpen, selectedImage } =
     useContext(TestContext);
   const { theme } = useContext(ThemeContext);
@@ -83,24 +85,40 @@ const TestSession = ({ data, user }) => {
     localStorage.setItem("testSteps", JSON.stringify(data));
   }, 300);
 
+  const handleChange = (field, value, index) => {
+    const updatedSteps = [...editedData.steps];
+    updatedSteps[index] = {
+      ...updatedSteps[index],
+      [field]: value,
+    };
+
+    setEditedData((prevData) => ({
+      ...prevData,
+      steps: updatedSteps,
+    }));
+  };
+  console.log(editedData.kw);
+
   const handleEdit = (field, value, stepIndex = null) => {
     console.log(field);
     console.log(value);
-
     setEditedData((prevData) => {
       const editedBy = `${user?.firstName} ${user?.lastName}`;
-      const updatedData = { ...prevData, edited_by: editedBy, kw: weekNumber };
+
+      const kw =
+        field === "created_at"
+          ? getISOWeekNumber(value)
+          : getISOWeekNumber(editedData.kw);
+
+      const updatedData = {
+        ...prevData,
+        edited_by: editedBy,
+        kw: kw,
+      };
 
       if (stepIndex !== null) {
-        updatedData.steps = prevData.steps.map((step, index) => {
-          if (index === stepIndex) {
-            return {
-              ...step,
-              [field]: value,
-            };
-          }
-          return step;
-        });
+        // Delegate input value update to handleChange function
+        handleChange(field, value, stepIndex);
       } else {
         updatedData[field] = value;
       }
@@ -268,6 +286,13 @@ const TestSession = ({ data, user }) => {
     );
   }
 
+  const modifyEditedDataToFitDiagram = (editedData) => {
+    return {
+      key: "",
+      data: [editedData],
+    };
+  };
+
   return (
     <div className={`${theme}`}>
       <div className={`${theme} testSession`}>
@@ -307,19 +332,8 @@ const TestSession = ({ data, user }) => {
                     />
                   </td>
 
-                  <td data-name={`kw`}>
-                    <input
-                      name="kw"
-                      type="text"
-                      value={editedData?.kw}
-                      onChange={(e) => handleEdit("kw", e.target.value)}
-                      className={`
-                    ${
-                      emptyFields.includes(`kw`)
-                        ? "border-2 border-red-500"
-                        : ""
-                    }`}
-                    />
+                  <td className="padding" data-name={`kw`}>
+                    {editedData?.kw}
                   </td>
                   <td data-name={`stable`}>
                     <select
@@ -344,7 +358,7 @@ const TestSession = ({ data, user }) => {
                       type="text"
                       value={editedData?.build_number}
                       onChange={(e) =>
-                        handleEdit("build_number", e.target.value)
+                        handleChange("build_number", e.target.value)
                       }
                       className={`
                     ${
@@ -511,7 +525,7 @@ const TestSession = ({ data, user }) => {
                   <td className="w-screen">
                     <textarea
                       value={editedData?.notes}
-                      onChange={(e) => handleEdit("notes", e.target.value)}
+                      onChange={(e) => handleChange("notes", e.target.value)}
                       className="border-2 w-full h-32 resize-none"
                       name="note"
                       id=""
@@ -550,7 +564,7 @@ const TestSession = ({ data, user }) => {
                           type="text"
                           value={step.step_details}
                           onChange={(e) =>
-                            handleEdit("step_details", e.target.value, index)
+                            handleChange("step_details", e.target.value, index)
                           }
                           className="no-border-input w-full border-0 focus:ring-0 focus:outline-none"
                         />
@@ -569,7 +583,7 @@ const TestSession = ({ data, user }) => {
                           type="text"
                           value={step.expected_results}
                           onChange={(e) =>
-                            handleEdit(
+                            handleChange(
                               "expected_results",
                               e.target.value,
                               index
@@ -592,7 +606,7 @@ const TestSession = ({ data, user }) => {
                           type="text"
                           value={step.actual_result}
                           onChange={(e) =>
-                            handleEdit("actual_result", e.target.value, index)
+                            handleChange("actual_result", e.target.value, index)
                           }
                           className="w-full border-0 focus:ring-0 focus:outline-none"
                         />
@@ -610,7 +624,7 @@ const TestSession = ({ data, user }) => {
                           name="result"
                           value={step.result}
                           onChange={(e) =>
-                            handleEdit("result", e.target.value, index)
+                            handleChange("result", e.target.value, index)
                           }
                           className="w-full border-0 focus:ring-0 focus:outline-none"
                         >
@@ -668,7 +682,7 @@ const TestSession = ({ data, user }) => {
         </div>
         {activeTab === "diagram" && (
           <div className="my-8">
-            <Diagram data={editedData} />
+            <Diagram data={modifyEditedDataToFitDiagram(editedData)} />
           </div>
         )}
         <div className="flex justify-center space-x-12 my-4">

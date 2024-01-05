@@ -26,6 +26,8 @@
 }
 
 .container input,
+.group-by input,
+.group-by select,
 .container select {
   padding: 8px;
   border-radius: 5px;
@@ -64,8 +66,7 @@ input[type="checkbox"]:checked {
   font-weight: bold;
 }
 
-.items-per-page,
-.group-by {
+.items-per-page {
   display: flex;
   align-items: center;
   margin-top: 10px;
@@ -86,9 +87,11 @@ input[type="checkbox"]:checked {
 }
 
 .group-by {
+  margin-top: 1rem;
   width: 90%;
   display: flex;
   justify-content: flex-end;
+  gap: 2rem;
 }
 
 .diagram-div-container {

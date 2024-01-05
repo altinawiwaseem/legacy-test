@@ -1,0 +1,120 @@
+.comparison-log {
+  display: flex;
+  min-height: 100vh;
+  width: 100vw;
+}
+.logs {
+  width: 20%;
+  margin-left: 0.5rem;
+  min-height: 100vh;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.1);
+}
+.log-item {
+  transition: box-shadow 0.2s;
+  border-radius: 0.375rem;
+  display: flex;
+  /*  flex-direction: column-reverse; */
+  margin: 1px;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);
+  margin-top: 0.5rem;
+  cursor: pointer;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem;
+}
+
+@media (min-width: 640px) {
+  .comparison-log {
+    width: 100%;
+  }
+  .log-item {
+    width: 100%;
+    height: 6rem;
+    display: flex;
+    flex-direction: row;
+    padding: 0.5rem;
+  }
+}
+
+.border-green {
+  border-left: 0.25rem solid #2ecc71;
+  border-radius: 0.375rem;
+}
+
+.log-item-inner-div {
+  height: 100%;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.result {
+  width: 100%;
+  height: 100%;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style the table */
+table {
+  border-collapse: collapse;
+}
+tbody {
+  border: 2px solid;
+  width: 100px;
+}
+th {
+  border: 1px solid;
+  padding: 8px;
+  text-align: center;
+}
+td {
+  border: 1px solid #000;
+  padding: 8px;
+  text-align: left;
+}
+td:nth-child(1) {
+  width: 10px;
+}
+td:nth-child(2) {
+  width: 100px;
+
+  white-space: pre-wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+td:nth-child(3) {
+  text-align: center;
+}
+
+tbody tr.pass {
+  border: 2px solid #2ecc71;
+  border-radius: 0.375rem;
+  background-color: #d1f7d8;
+  color: #000;
+  padding: 0.5rem;
+  margin-top: 1rem;
+}
+
+tbody tr.fail {
+  border: 2px #ff5252 solid;
+  border-radius: 0.375rem; /* rounded-md */
+  background-color: #ffcccc; /* bg-red-50 */
+  color: black; /* dark:text-red-600 */
+  padding: 0.5rem; /* p-2 */
+  margin-top: 1rem;
+}
+
+/* .dark tbody tr.pass {
+  background-color: #c8e6c9;
+}
+
+.dark tbody tr.fail {
+  background-color: #ffcdd2;
+}
+ */

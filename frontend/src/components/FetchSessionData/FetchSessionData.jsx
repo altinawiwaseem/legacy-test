@@ -16,7 +16,7 @@ const FetchSessionData = () => {
   const [data, setData] = useState([]);
   const [fetchAll, setFetchAll] = useState(false);
 
-  const [grouping, setGrouping] = useState("none");
+  const [grouping, setGrouping] = useState("project");
   const [originalData, setOriginalData] = useState([]);
   const [pageData, setPageData] = useState("");
 
@@ -33,6 +33,8 @@ const FetchSessionData = () => {
   const [itemsPerPage, setItemsPerPage] = useState(
     storedItemsPerPage ? Number(storedItemsPerPage) : 50
   );
+
+  const [barsPerChart, setBarsPerChart] = useState(26);
 
   useEffect(() => {
     localStorage.setItem("itemsPerPage", itemsPerPage);
@@ -78,7 +80,47 @@ const FetchSessionData = () => {
     }
   };
 
+  /* const groupData = (dataToGroup, groupKey) => {
+    const groupedData = dataToGroup.reduce((acc, cur) => {
+      const key = cur[groupKey];
+      acc[key] = acc[key] || [];
+      acc[key].push(cur);
+      return acc;
+    }, {});
+    setData(
+      Object.entries(groupedData).map(([key, value]) => ({
+        key,
+        data: value,
+      }))
+    );
+  }; */
+
   const groupData = (dataToGroup, groupKey) => {
+    if (groupKey === "project") {
+      const sortedData = dataToGroup.sort((a, b) => {
+        // Sort by project first, then by market_variant within the project
+        if (a.project === b.project) {
+          return a.market_variant.localeCompare(b.market_variant);
+        }
+        return a.project.localeCompare(b.project);
+      });
+
+      const groupedData = sortedData.reduce((acc, cur) => {
+        const key = `${cur.project} ${cur.market_variant}`;
+        acc[key] = acc[key] || [];
+        acc[key].push(cur);
+        return acc;
+      }, {});
+
+      setData(
+        Object.entries(groupedData).map(([key, value]) => ({
+          key,
+          data: value,
+        }))
+      );
+      return;
+    }
+
     const groupedData = dataToGroup.reduce((acc, cur) => {
       const key = cur[groupKey];
       acc[key] = acc[key] || [];
@@ -92,6 +134,7 @@ const FetchSessionData = () => {
       }))
     );
   };
+
   useEffect(() => {
     groupData(originalData, grouping);
   }, [grouping, originalData]);
@@ -102,8 +145,6 @@ const FetchSessionData = () => {
     }
   };
 
-  /*   const previousPageFromUrl = useRef(pageFromUrl); */
-
   useEffect(() => {
     if (initialMount.current && !pageFromUrl) {
       initialMount.current = false;
@@ -112,16 +153,6 @@ const FetchSessionData = () => {
 
     fetchData(parseInt(pageFromUrl) || 1);
   }, [pageFromUrl]);
-
-  /*  const handleBarClick = async (data) => {
-    try {
-      localStorage.setItem("displayTestData", JSON.stringify(data));
-      handleOpenModal(data);
-      
-    } catch (error) {
-      console.error("Error handling click:", error);
-    }
-  }; */
 
   const handleOpenModal = (data) => {
     setDisplayTestData(data);
@@ -240,17 +271,27 @@ const FetchSessionData = () => {
       {pageData && (
         <div className="group-by">
           <label className="group-by-label">
+            <span>Bars per Chart:</span>
+            <input
+              min="1"
+              type="number"
+              value={barsPerChart}
+              onChange={(e) => setBarsPerChart(e.target.value)}
+              className="items-per-page-input"
+            />
+          </label>
+          <label className="group-by-label">
             <span>Group by:</span>
             <select
               value={grouping}
               onChange={(e) => setGrouping(e.target.value)}
               className="group-by-select"
             >
-              <option value="none">None</option>
               <option value="project">Project</option>
               <option value="test_object">Test Object</option>
               <option value="market_variant">Market Variant</option>
               <option value="stable">Stability</option>
+              <option value="none">None</option>
             </select>
           </label>
         </div>
@@ -258,6 +299,7 @@ const FetchSessionData = () => {
 
       <div className="diagram-div-container" style={{ display: "flex" }}>
         <Diagram
+          barsPerChart={barsPerChart}
           originalData={originalData}
           data={data}
           groupedBy={grouping}

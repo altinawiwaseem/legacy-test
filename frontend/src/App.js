@@ -10,6 +10,7 @@ import { UserContext } from "./components/Context/UserContext/UserContext";
 import FetchSessionData from "./components/FetchSessionData/FetchSessionData";
 import Header from "./components/Header/Header";
 import { ThemeContext } from "./components/Context/ThemeContext/ThemeContext";
+import TestsLog from "./components/TestsLog/TestsLog";
 
 /* import DisplayTestData from "./components/DisplayTestData/DisplayTestData"; */
 
@@ -30,6 +31,7 @@ function App() {
             path="/testsession"
             exact
           />
+          <Route path="/log" element={<TestsLog />} />
           <Route element={<FetchSessionData />} path="/search" exact />
           {/* <Route path="/view-test-data" element={<DisplayTestData />} exact /> */}
         </Route>
