@@ -102,6 +102,7 @@ const Diagram = ({
                     theme={theme}
                     onBarClick={handleBarClick}
                     originalData={originalData}
+                    groupedBy={groupedBy}
                   />
                 </div>
               ))

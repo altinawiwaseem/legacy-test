@@ -12,7 +12,7 @@ const TestContextProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const getUser = JSON.parse(localStorage.getItem("user"));
-
+  const [weekNumber, setWeekNumber] = useState("");
   // Get test steps from localStorage
 
   const getTestStepsFromLocalStorage = () => {
@@ -88,6 +88,7 @@ const TestContextProvider = ({ children }) => {
     try {
       const today = new Date();
       const kw = getISOWeekNumber(today);
+      setWeekNumber(kw);
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/api/createtestsession`,
         {
@@ -109,14 +110,19 @@ const TestContextProvider = ({ children }) => {
       );
 
       // Set the response data in local storage
-      localStorage.setItem(
-        "testSteps",
-        JSON.stringify(response.data.newTestSession)
-      );
-      localStorage.setItem(
-        "sessionId",
-        JSON.stringify(response.data.newTestSession._id)
-      );
+      if (
+        response.data.newTestSession &&
+        response.data.newTestSession._id !== undefined
+      ) {
+        localStorage.setItem(
+          "testSteps",
+          JSON.stringify(response.data.newTestSession)
+        );
+        localStorage.setItem(
+          "sessionId",
+          JSON.stringify(response.data.newTestSession._id)
+        );
+      }
 
       // Update state variables as needed
 
@@ -161,12 +167,13 @@ const TestContextProvider = ({ children }) => {
         setStepsData,
         setDisplayTestData,
         displayTestData,
-
         handleImage,
         openModal,
         closeModal,
         selectedImage,
         isModalOpen,
+        weekNumber,
+        setWeekNumber,
       }}
     >
       {children}

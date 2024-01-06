@@ -11,7 +11,14 @@ import {
   Legend,
   Title,
 } from "chart.js";
-const DiagramBar = ({ item, theme, onBarClick, originalData, title }) => {
+const DiagramBar = ({
+  item,
+  theme,
+  onBarClick,
+  originalData,
+  title,
+  groupedBy,
+}) => {
   const totalTests = item.data
     ? item.data.map((step) => step.steps.length)
     : [];
@@ -276,6 +283,7 @@ const DiagramBar = ({ item, theme, onBarClick, originalData, title }) => {
       });
     },
   };
+  console.log(item);
 
   const options = {
     maintainAspectRatio: false,
@@ -314,7 +322,10 @@ const DiagramBar = ({ item, theme, onBarClick, originalData, title }) => {
       y: {
         stacked: true,
         min: 0,
-        max: 100,
+        max:
+          groupedBy === "project" && item.data[0].market_variant !== "EU"
+            ? 6
+            : 100,
         grid: {
           color:
             theme === "light"

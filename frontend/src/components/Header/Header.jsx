@@ -21,11 +21,12 @@ const Header = () => {
         <nav>
           <ul className="nav-bar">
             <li>
-              <a href="/search">Search</a>
-            </li>
-            <li>
               <a href="/">Test</a>
             </li>
+            <li>
+              <a href="/search">Search</a>
+            </li>
+
             <li>
               <a href="/log">Tests Log</a>
             </li>

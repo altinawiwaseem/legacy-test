@@ -1,4 +1,5 @@
 import { Image } from "../models/image.js";
+import { NonEuStepsData } from "../models/nonEuTestSteps.js";
 import { TestSession } from "../models/testSession.js";
 import { StepsData } from "../models/testSteps.js";
 import sharp from "sharp";
@@ -6,6 +7,15 @@ import sharp from "sharp";
 export const createAllTestSteps = async (req, res) => {
   try {
     const createSteps = await StepsData.create(req.body);
+    return res.status(201).json({ message: "Steps created", createSteps });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const createNonEuTestSteps = async (req, res) => {
+  try {
+    const createSteps = await NonEuStepsData.create(req.body);
     return res.status(201).json({ message: "Steps created", createSteps });
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -34,7 +44,10 @@ export const createTestSession = async (req, res) => {
     kw,
   } = req.body;
 
-  const steps = await StepsData.find({});
+  const steps =
+    market_variant.toLowerCase() === "eu"
+      ? await StepsData.find({})
+      : await NonEuStepsData.find({});
 
   //create a new session
   try {
@@ -253,3 +266,13 @@ export const fetchSessions = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
+
+export async function getLog(req, res) {
+  try {
+    const log = await TestSession.find({}).sort({ date: -1 });
+
+    res.status(200).json({ data: log });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching log", error });
+  }
+}

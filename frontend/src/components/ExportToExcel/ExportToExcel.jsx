@@ -4,6 +4,7 @@ import ExcelJS from "exceljs";
 import { AiOutlineDownload } from "react-icons/ai";
 
 function ExportToExcel({ data }) {
+  console.log(data);
   const generateExcel = async () => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Report");

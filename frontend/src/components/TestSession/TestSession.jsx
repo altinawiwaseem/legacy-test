@@ -11,9 +11,15 @@ import "./TestSession.css";
 import { getISOWeekNumber } from "../../utils/getISOWeekNumber";
 
 const TestSession = ({ data, user }) => {
-  console.log(data);
-  const { handleImage, openModal, closeModal, isModalOpen, selectedImage } =
-    useContext(TestContext);
+  const {
+    handleImage,
+    openModal,
+    closeModal,
+    isModalOpen,
+    selectedImage,
+    weekNumber,
+    setWeekNumber,
+  } = useContext(TestContext);
   const { theme } = useContext(ThemeContext);
   const [showModal, setShowModal] = useState(false);
   const [submitModal, setSubmitModal] = useState(false);
@@ -29,7 +35,7 @@ const TestSession = ({ data, user }) => {
   const initialData = localStorage.getItem("testSteps")
     ? JSON.parse(localStorage.getItem("testSteps"))
     : data;
-  const [weekNumber, setWeekNumber] = useState("");
+  /* const [weekNumber, setWeekNumber] = useState(""); */
   const [editedData, setEditedData] = useState(initialData);
   const navigate = useNavigate();
 
@@ -97,23 +103,21 @@ const TestSession = ({ data, user }) => {
       steps: updatedSteps,
     }));
   };
-  console.log(editedData.kw);
 
   const handleEdit = (field, value, stepIndex = null) => {
-    console.log(field);
-    console.log(value);
     setEditedData((prevData) => {
       const editedBy = `${user?.firstName} ${user?.lastName}`;
 
-      const kw =
+      setWeekNumber(
         field === "created_at"
           ? getISOWeekNumber(value)
-          : getISOWeekNumber(editedData.kw);
+          : getISOWeekNumber(editedData.created_at)
+      );
 
       const updatedData = {
         ...prevData,
         edited_by: editedBy,
-        kw: kw,
+        kw: weekNumber,
       };
 
       if (stepIndex !== null) {
@@ -275,6 +279,10 @@ const TestSession = ({ data, user }) => {
     navigate("/");
   };
 
+  useEffect(() => {
+    setWeekNumber(getISOWeekNumber(editedData.created_at));
+  }, []);
+
   if (!initialData || initialData.length === 0) {
     return (
       <div>
@@ -333,7 +341,7 @@ const TestSession = ({ data, user }) => {
                   </td>
 
                   <td className="padding" data-name={`kw`}>
-                    {editedData?.kw}
+                    {weekNumber}
                   </td>
                   <td data-name={`stable`}>
                     <select
