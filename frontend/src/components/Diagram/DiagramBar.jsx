@@ -414,10 +414,7 @@ const DiagramBar = ({
   const [yPos, setYPos] = useState(50);
 
   return (
-    <div
-      style={{ width: "98vw", height: "100vh" }}
-      className="diagram-container"
-    >
+    <div className="diagram-container">
       <div
         className={`diagram-box ${
           item.stable ? "diagram-stable" : "diagram-unstable"
@@ -430,12 +427,12 @@ const DiagramBar = ({
             onResize={(e, direction, ref, delta, position) => {
               setXPos(position.x);
               setYPos(position.y);
-
               const { offsetWidth: newWidth, offsetHeight: newHeight } = ref;
               setWidth(newWidth);
               setHeight(newHeight);
             }}
             disableDragging={true}
+            enableResizing={{ left: true, right: true }}
             /* bounds="parent" */
           >
             <div className={`chartBox ${theme}`}>

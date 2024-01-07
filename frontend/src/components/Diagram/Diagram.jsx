@@ -5,6 +5,7 @@ import "./Diagram.css";
 
 import { ThemeContext } from "../Context/ThemeContext/ThemeContext";
 import DiagramBar from "./DiagramBar";
+import DiagramTable from "./DiagramTable";
 
 const Diagram = ({
   data,
@@ -104,6 +105,7 @@ const Diagram = ({
                     originalData={originalData}
                     groupedBy={groupedBy}
                   />
+                  <DiagramTable item={{ key: group.key, data: chunk }} />
                 </div>
               ))
             ) : (

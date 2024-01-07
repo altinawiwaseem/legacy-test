@@ -161,27 +161,22 @@ const TestSession = ({ data, user }) => {
 
   const handleSubmit = () => {
     const empties = computeEmptyFields(editedData);
-
     const tdElements = document.querySelectorAll("td[data-name]");
 
     tdElements.forEach((td) => {
       if (empties.includes(td.getAttribute("data-name"))) {
         td.classList.add("empty-input");
-        console.log("first");
       } else {
         td.classList.remove("empty-input");
       }
     });
 
     if (empties.length) {
-      setEmptyFields(empties);
       setSubmitModal(true);
       setShouldCheckForEmptyFields(true);
     } else {
-      // Submit the form
       updateTestSession(editedData._id, editedData);
       setShouldCheckForEmptyFields(false);
-      console.log("Form submitted!");
     }
   };
 
@@ -496,25 +491,23 @@ const TestSession = ({ data, user }) => {
               </tbody>
             </table>
           </div>
-          <div className="flex justify-center space-x-4 py-4 ">
-            <div className=" w-96 bg-gray-500 my-2  flex justify-center rounded-md space-x-4 py-4">
+          <div className={`tab-container  `}>
+            <div
+              className={`tab-box tab-box-${theme} ${
+                activeTab === "table" ? "active" : ""
+              } `}
+            >
               <button
-                className={`w-32  ${
-                  activeTab === "table"
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200 text-gray-700"
-                } px-4 py-2 rounded-md`}
+                className={`tab-btn ${activeTab === "table" ? "active" : ""} `}
                 onClick={() => setActiveTab("table")}
               >
                 Table
               </button>
               <button
-                className={`w-32 ${
-                  activeTab === "diagram"
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200 text-gray-700"
-                } px-4 py-2 rounded-md`}
                 onClick={() => setActiveTab("diagram")}
+                className={`tab-btn ${
+                  activeTab === "diagram" ? "active" : ""
+                } `}
               >
                 Diagram
               </button>
@@ -530,11 +523,11 @@ const TestSession = ({ data, user }) => {
 
               <tbody>
                 <tr>
-                  <td className="w-screen">
+                  <td className={`notes ${theme}`}>
                     <textarea
+                      className={`${theme}`}
                       value={editedData?.notes}
-                      onChange={(e) => handleChange("notes", e.target.value)}
-                      className="border-2 w-full h-32 resize-none"
+                      onChange={(e) => handleEdit("notes", e.target.value)}
                       name="note"
                       id=""
                     ></textarea>
@@ -559,7 +552,7 @@ const TestSession = ({ data, user }) => {
                   <th>&#x2716;</th>
                 </tr>
               </thead>
-              <tbody className=".no-border ">
+              <tbody className="no-border ">
                 {editedData?.steps
                   ?.sort((a, b) => a.step_id - b.step_id)
                   .map((step, index) => (
@@ -693,19 +686,15 @@ const TestSession = ({ data, user }) => {
             <Diagram data={modifyEditedDataToFitDiagram(editedData)} />
           </div>
         )}
-        <div className="flex justify-center space-x-12 my-4">
-          <button
-            onClick={handleSubmit}
-            className="bg-green-500 text-white px-4 py-2 rounded-md mr-2"
-          >
-            Submit
-          </button>
-          <button
-            onClick={handleCancelSession}
-            className="bg-red-500 text-white px-4 py-2 rounded-md"
-          >
-            Delete
-          </button>
+        <div className="btn-container">
+          <div className="btn-box">
+            <button onClick={handleSubmit} className="submit-button">
+              Submit
+            </button>
+            <button onClick={handleCancelSession} className="delete-button">
+              Delete
+            </button>
+          </div>
         </div>
 
         {showModal && (
